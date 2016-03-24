@@ -79,4 +79,15 @@ public class Graph implements IDirectedGraph{
         return adjacents;
     }
     
+    @Override
+    public String toString() {
+        String s = "";
+        for(Node n : nodes) {
+            s += "[noeud=" + n.getLabel();
+            s += this.getArc(n);
+            s += "\n";
+        }
+        return s;
+    }
+    
 }
