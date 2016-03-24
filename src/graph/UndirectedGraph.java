@@ -11,39 +11,38 @@ import java.util.List;
  *
  * @author Epulapp
  */
-public class UndirectedGraph implements IUndirectedGraph {
-    
-    
+public class UndirectedGraph extends Graph implements IUndirectedGraph {    
 
     @Override
     public void addEdge(Node _node1, Node _node2) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Arc a = new Arc(_node1, _node2, null);
+        Arc b = new Arc(_node2, _node1, null);
+        this.addArc(a);
+        this.addArc(b);
     }
 
     @Override
     public boolean hasEdge(Node _node1, Node _node2) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.hasArc(_node1, _node2) || this.hasArc(_node2, _node1);
     }
 
     @Override
     public void addNode(Node _node) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        super.addNode(_node);
     }
 
     @Override
     public List<Node> getAllNodes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return super.getAllNodes();
     }
 
     @Override
     public int getNbNodes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return super.getNbNodes();
     }
 
     @Override
     public List<Node> getAdjNodes(Node _n) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
+        return super.getAdjNodes(_n);
+    }   
 }

@@ -7,6 +7,7 @@ package graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -88,6 +89,16 @@ public class Graph implements IDirectedGraph{
             s += "\n";
         }
         return s;
+    }
+
+    @Override
+    public Iterator<Node> creerBFSIterator(Node n) {
+        return new NodeBFSIterator(this, n);
+    }
+
+    @Override
+    public Iterator<Node> creerDFSIterator(Node n) {
+        return new NodeDFSIterator(this, n);
     }
     
 }
