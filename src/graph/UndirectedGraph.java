@@ -15,6 +15,7 @@ public class UndirectedGraph extends Graph implements IUndirectedGraph {
 
     @Override
     public void addEdge(Node _node1, Node _node2) {
+        // Ajout de l'arrête dans chaque sens (source -> destination et destination -> source)
         Arc a = new Arc(_node1, _node2, null);
         Arc b = new Arc(_node2, _node1, null);
         this.addArc(a);
@@ -23,9 +24,12 @@ public class UndirectedGraph extends Graph implements IUndirectedGraph {
 
     @Override
     public boolean hasEdge(Node _node1, Node _node2) {
+        // On vérifie dans les deux sens au cas où
         return this.hasArc(_node1, _node2) || this.hasArc(_node2, _node1);
     }
-
+    
+    // Les 4 méthodes suivantes utilisent les méthodes de la classe parent
+    
     @Override
     public void addNode(Node _node) {
         super.addNode(_node);

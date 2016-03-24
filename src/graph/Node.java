@@ -7,9 +7,9 @@ package graph;
  */
 
 public class Node {
-	/**
-	 * etiquette du noeud
-	 */
+    /**
+     * etiquette du noeud
+     */
     private Label label;
     /**
      * ID unique du noeud

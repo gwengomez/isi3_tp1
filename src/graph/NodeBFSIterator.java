@@ -13,12 +13,14 @@ import java.util.LinkedList;
  */
 public class NodeBFSIterator extends NodeIterator {
 
+    // On appelle le constructeur de la classe parent
     public NodeBFSIterator(IGraph g, Node origin) {
         super(g, origin);
     }
 
     @Override
     public Node removeNextNode() {
+        // Récupère le premier noeud de la file et le retire
         return ((LinkedList<Node>)this.nodes).removeFirst();
     }
 

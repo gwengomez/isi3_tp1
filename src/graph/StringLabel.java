@@ -1,23 +1,23 @@
 package graph;
 
 public class StringLabel  implements Label {
-	String label;
+    String label;
 
-	public StringLabel(String label) {
-		super();
-		this.label = label;
-	}
+    public StringLabel(String label) {
+            super();
+            this.label = label;
+    }
 
-	public Object getLabel() {
-		return label;
-	}
+    public Object getLabel() {
+            return label;
+    }
 
-	public void setLabel(Object label) {
-		this.label = (String) label;
-	}
-	
-	public String toString(){
-		return label ;
-	}
+    public void setLabel(Object label) {
+            this.label = (String) label;
+    }
+
+    public String toString(){
+            return label ;
+    }
 
 }
