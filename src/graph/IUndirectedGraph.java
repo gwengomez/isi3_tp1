@@ -1,8 +1,5 @@
 package graph;
 
-import java.util.List;
-import java.util.Set;
-
 public interface IUndirectedGraph extends IGraph{
 
 	/**
