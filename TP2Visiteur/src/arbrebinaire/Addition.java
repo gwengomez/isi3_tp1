@@ -5,7 +5,13 @@ public class Addition extends OperateurBinaire{
 		super("+", ng, nd);
 	}
 
+    @Override
+    public void accept(ArbreVisitor visitor) {
+        visitor.visitAddition(this);
+    }
 
-	
-
+    @Override
+    public int getPriorite() {
+        return 1;
+    }
 }

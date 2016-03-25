@@ -6,7 +6,14 @@ public class Constante implements Noeud{
 		valeur = v;
 	}
 	public int getValeur(){return valeur;}
-	
 
+    @Override
+    public void accept(ArbreVisitor visitor) {
+        visitor.visitConstante(this);
+    }
 
+    @Override
+    public int getPriorite() {
+        return 3;
+    }
 }

@@ -22,6 +22,14 @@ public class TestArbreBinaire {
 		System.out.println("\n calcul valeur: " + exp.calculerValeur());
 		System.out.println("\n calcul hauteur: " + exp.calculerHauteur());
 		exp.afficherPostFixe();
+                
+                Addition racineB = new Addition(new Constante(2), new Multiplication(new Constante(7), new Addition(new Negation(new Constante(5)), new Multiplication(new Constante(3), new Addition(new Constante(2), new Constante(1))))));
+                ExpressionArithmetique expb = new ExpressionArithmetique(racineB);
+                
+                expb.afficherInFixe();
+		System.out.println("\n calcul valeur: " + expb.calculerValeur());
+		System.out.println("\n calcul hauteur: " + expb.calculerHauteur());
+		expb.afficherPostFixe();
 		
 		
 
