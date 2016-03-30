@@ -8,6 +8,7 @@ public class Negation extends OperateurUnaire {
     
     @Override
     public void accept(ArbreVisitor visitor) {
+        // Traite un opérateur -
         visitor.visitNegation(this);
     }    
 

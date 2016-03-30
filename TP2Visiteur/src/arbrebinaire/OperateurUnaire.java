@@ -1,6 +1,7 @@
 package arbrebinaire;
 
-public abstract class OperateurUnaire implements Noeud{
+// Noeud comportant un operateur et un noeud fils
+public abstract class OperateurUnaire implements Noeud {
 	private String op;
 	private Noeud opG;
 	

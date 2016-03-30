@@ -7,6 +7,7 @@ public class Addition extends OperateurBinaire{
 
     @Override
     public void accept(ArbreVisitor visitor) {
+        // Traite un opérateur +
         visitor.visitAddition(this);
     }
 

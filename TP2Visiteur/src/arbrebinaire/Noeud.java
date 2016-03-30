@@ -1,8 +1,7 @@
 package arbrebinaire;
 
+// Interface définissant les classes des operateurs et de la constante
 public interface Noeud {
-    // Traite le noeud courant
     public void accept(ArbreVisitor visitor);
-    // Renvoie sa priorité
     public int getPriorite();
 }
