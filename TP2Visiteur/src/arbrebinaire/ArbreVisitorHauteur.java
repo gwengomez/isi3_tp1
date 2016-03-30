@@ -11,12 +11,15 @@ package arbrebinaire;
  */
 public class ArbreVisitorHauteur implements ArbreVisitor{
     
+    // Visite l'arbre et calcule sa hauteur en remontant
+    
     private int hauteur;
 
     @Override
     public void visitNegation(Negation n) {
-        this.hauteur += 1;
+        // Ajoute +1 à la hauteur du fils
         n.getOpG().accept(this);
+        this.hauteur += 1;
         
     }
 

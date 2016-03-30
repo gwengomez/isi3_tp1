@@ -13,7 +13,9 @@ public class ArbreVisitorPostfixe implements ArbreVisitor {
 
     @Override
     public void visitNegation(Negation n) {
+        // Traite le noeud fils
         n.getOpG().accept(this);
+        // Affiche le noeud courant
         System.out.print(n.getOp());
     }
 
@@ -29,12 +31,17 @@ public class ArbreVisitorPostfixe implements ArbreVisitor {
 
     @Override
     public void visitConstante(Constante n) {
+        // Affichage la valeur de la constante courante
         System.out.print(n.getValeur());
     }
 
+    // Méthode globale de parcours postfixe
     private void postfixeBinaire(OperateurBinaire n) {
+        // Traite le noeud de gauche
         n.getOpG().accept(this);
+        // Traite le noeud de droite
         n.getOpD().accept(this);
+        // Traite le noeud courant
         System.out.print(n.getOp());
     }
 

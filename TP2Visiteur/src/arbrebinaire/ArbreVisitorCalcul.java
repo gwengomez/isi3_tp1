@@ -11,13 +11,16 @@ package arbrebinaire;
  */
 public class ArbreVisitorCalcul implements ArbreVisitor{
     
-    //utilise le parcours infixe pour effectuer le calcul
+    //utilise le parcours infixe pour effectuer le calcul de l'expression arithmétique
     private int resultat = 0;
 
     @Override
     public void visitNegation(Negation n) {
+        // Copie le résultat actuel
         int copyRes = resultat;
+        // Traite le noeud fils
         n.getOpG().accept(this);
+        // Soustrait le résultat du noeud fils au résultat courant
         this.resultat = copyRes - this.resultat;
     }
 
