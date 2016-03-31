@@ -25,4 +25,7 @@ public class TestSmallCodePerson extends TestIPerson {
         //test avec SmallCodePerson
         p = new SmallCodePerson("Gomez", "Gwendoline", 1994, 10, 13);
     }
+    
+    // Erreur dans testWasBorn :
+    // Date de naissance qui ne va pas
 }

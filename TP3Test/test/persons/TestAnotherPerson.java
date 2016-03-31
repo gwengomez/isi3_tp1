@@ -26,9 +26,7 @@ public class TestAnotherPerson extends TestIPerson {
         p = new AnotherPerson("Gomez", "Gwendoline", 1994, 10, 13);
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    // Erreur dans testAgeInvalid2 :
+    // Expected : IllegalArgumentException
+    // Résultat : AssertionFailedError
 }

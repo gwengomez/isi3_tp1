@@ -26,9 +26,7 @@ public class TestOneMorePerson extends TestIPerson {
         p = new OneMorePerson("Gomez", "Gwendoline", 1994, 10, 13);    
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    // Erreur dans testGetAge :
+    // Expected : 0
+    // Résultat : -1
 }
