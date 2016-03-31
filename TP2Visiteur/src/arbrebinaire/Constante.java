@@ -9,6 +9,7 @@ public class Constante implements Noeud{
 
     @Override
     public void accept(ArbreVisitor visitor) {
+        // Traite une constante
         visitor.visitConstante(this);
     }
 

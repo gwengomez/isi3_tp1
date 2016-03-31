@@ -1,5 +1,6 @@
 package arbrebinaire;
 
+// Operateur unitaire particulier comportant un noeud fils supplémentaire
 public abstract class OperateurBinaire  extends OperateurUnaire{
 
 	private Noeud opD;

@@ -9,6 +9,7 @@ package arbrebinaire;
  *
  * @author Epulapp
  */
+// Interface des classes Visiteur
 public interface ArbreVisitor {
     public void visitNegation(Negation n);
     public void visitAddition(Addition n);

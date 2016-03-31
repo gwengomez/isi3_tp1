@@ -16,7 +16,7 @@ public class ArbreVisitorCalcul implements ArbreVisitor{
 
     @Override
     public void visitNegation(Negation n) {
-        // Copie le résultat actuel
+        // Copie le résultat courant
         int copyRes = resultat;
         // Traite le noeud fils
         n.getOpG().accept(this);
@@ -36,16 +36,24 @@ public class ArbreVisitorCalcul implements ArbreVisitor{
 
     @Override
     public void visitConstante(Constante n) {
+        // Assigne la valeur de la constante au résultat courant
         this.resultat = n.getValeur();
     }
     
     private void parcoursInfixeBinaire(OperateurBinaire n) {
+        // Initialise le résultat courant
         this.resultat = 0;
+        // Traite le noeud de gauche
         n.getOpG().accept(this);
+        // Met de côté le résultat du noeud gauche
         int copyGauche = this.resultat;
+        // Réinitialise le résultat courant
         this.resultat = 0;
+        // Traite le noeud droit
         n.getOpD().accept(this);
+        // Met de côté le résultat du noeud droit
         int copyDroite = this.resultat;
+        // Réalise l'opération correspondante à l'opérateur du noeud courant
         switch(n.getOp()) {
             case "*":
                 this.resultat = copyGauche * copyDroite;
