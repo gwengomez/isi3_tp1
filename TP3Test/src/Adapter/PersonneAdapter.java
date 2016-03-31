@@ -1,4 +1,6 @@
+package Adapter;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import people.*;
 import persons.*;
@@ -8,7 +10,6 @@ import persons.*;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Epulapp
@@ -21,22 +22,29 @@ public class PersonneAdapter extends Personne implements IPerson {
 
     @Override
     public String getFirstName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.getPrenom();
     }
 
     @Override
     public String getName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.getNom();
     }
 
     @Override
     public boolean wasBorn(GregorianCalendar gc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (gc.after(this.dateNaissance) || gc.equals(this.dateNaissance)) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public int getAge(GregorianCalendar gc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int age = this.getAge(gc.get(Calendar.YEAR), gc.get(Calendar.MONTH) + 1, gc.get(Calendar.DAY_OF_MONTH));
+        if (age < 0) {
+            throw new IllegalArgumentException("Person was not born");
+        }
+        return age;
     }
-    
+
 }
