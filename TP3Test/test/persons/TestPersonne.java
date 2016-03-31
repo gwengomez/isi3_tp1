@@ -5,7 +5,7 @@
  */
 package persons;
 
-import Adapter.PersonneAdapter;
+import Personne.PersonneAdapter;
 import org.junit.Before;
 
 /**
