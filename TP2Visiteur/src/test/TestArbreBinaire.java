@@ -33,8 +33,8 @@ public class TestArbreBinaire {
 
 
         // ERREUR !! hauteur 3 au lieu de 4 avec en bas
-        //Addition ope = new Addition(new Constante(2), new Addition(new Constante(3), new Negation(new Constante(5))));
-        Addition ope = new Addition(new Constante(2), new Constante(5));
+        Addition ope = new Addition(new Constante(2), new Addition(new Constante(3), new Negation(new Constante(5))));
+        //Addition ope = new Addition(new Constante(2), new Constante(5));
         ExpressionArithmetique expc = new ExpressionArithmetique(ope);
 
         expc.afficherInFixe();

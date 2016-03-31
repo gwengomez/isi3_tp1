@@ -9,10 +9,9 @@ package arbrebinaire;
  *
  * @author Epulapp
  */
-public class ArbreVisitorHauteur implements ArbreVisitor{
-    
+public class ArbreVisitorHauteur implements ArbreVisitor {
+
     // Visite l'arbre et calcule sa hauteur en remontant
-    
     private int hauteur;
 
     @Override
@@ -20,7 +19,7 @@ public class ArbreVisitorHauteur implements ArbreVisitor{
         // Ajoute +1 à la hauteur du fils
         n.getOpG().accept(this);
         this.hauteur += 1;
-        
+
     }
 
     @Override
@@ -41,7 +40,7 @@ public class ArbreVisitorHauteur implements ArbreVisitor{
     public int getHauteur() {
         return hauteur;
     }
-    
+
     private void parcoursHauteurBinaire(OperateurBinaire n) {
         int _hauteur = this.hauteur;
         n.getOpG().accept(this);
@@ -49,8 +48,8 @@ public class ArbreVisitorHauteur implements ArbreVisitor{
         this.hauteur = _hauteur;
         n.getOpD().accept(this);
         int hauteurD = this.hauteur;
-        
-        if(hauteurG > hauteurD) {
+
+        if (hauteurG > hauteurD) {
             this.hauteur = hauteurG + 1;
         } else {
             this.hauteur = hauteurD + 1;
