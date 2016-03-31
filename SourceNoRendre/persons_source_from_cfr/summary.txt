@@ -1,0 +1,2 @@
+Summary for /www/javadecompilers/app/public/data/31.03.16/5652a2c474af6c896fea06a07b632276/persons.jar
+Decompiled with CFR 0_114
