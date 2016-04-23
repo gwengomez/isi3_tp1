@@ -20,7 +20,7 @@ public class OutilsPerson {
         if (ageMinimal > ageMaximal)
             throw new IllegalArgumentException("L'âge minimum est supèrieur à l'âge maximum");
         List<IPerson> personnesSelectionnees = new ArrayList<>();
-        for (IPerson p : personnesSelectionnees) {
+        for (IPerson p : lesPersonnes) {
             try {
                 if ((p.getAge(date) >= ageMinimal) && (p.getAge(date) <= ageMaximal)) {
                     personnesSelectionnees.add(p);
