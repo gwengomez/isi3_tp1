@@ -22,7 +22,7 @@ public class OutilsPerson {
         List<IPerson> personnesSelectionnees = new ArrayList<>();
         for (IPerson p : personnesSelectionnees) {
             try {
-                if ((p.getAge(date) >= ageMinimal) || (p.getAge(date) <= ageMaximal)) {
+                if ((p.getAge(date) >= ageMinimal) && (p.getAge(date) <= ageMaximal)) {
                     personnesSelectionnees.add(p);
                 }
             } catch (IllegalArgumentException e){}
