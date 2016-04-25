@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
  *
  * @author Epulapp
  */
-public class TestOutilsPerson {
+public class OutilsPersonTest {
 
     private IPerson mockPerson;
     private IPerson mockPerson1; //age < ageMin
@@ -34,10 +34,9 @@ public class TestOutilsPerson {
     private GregorianCalendar date;
     private int ageMin;
     private int ageMax;
-    private OutilsPerson op;
     private List<IPerson> persons;
 
-    public TestOutilsPerson() {
+    public OutilsPersonTest() {
     }
 
     @BeforeClass
@@ -61,7 +60,6 @@ public class TestOutilsPerson {
         mockPerson4 = mock(IPerson.class);
         mockPerson5 = mock(IPerson.class);
         date = new GregorianCalendar(2050, Calendar.MAY, 10); //10 mai 2050
-        op = new OutilsPerson();
         persons = new ArrayList<IPerson>();
         persons.add(mockPerson);
     }
@@ -73,61 +71,61 @@ public class TestOutilsPerson {
     @Test(expected = IllegalArgumentException.class)
     public void testListIntervalleException1() {
         when(mockPerson.getAge(date)).thenReturn(25);
-        op.liste_intervalle(persons, date, ageMax, ageMin);
+        OutilsPerson.liste_intervalle(persons, date, ageMax, ageMin);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testListIntervalleException2() {
         when(mockPerson.getAge(date)).thenReturn(55);
-        op.liste_intervalle(persons, date, ageMax, ageMin);
+        OutilsPerson.liste_intervalle(persons, date, ageMax, ageMin);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testListIntervalleException3() {
         when(mockPerson.getAge(date)).thenReturn(30);
-        op.liste_intervalle(persons, date, ageMax, ageMin);
+        OutilsPerson.liste_intervalle(persons, date, ageMax, ageMin);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testListIntervalleException4() {
         when(mockPerson.getAge(date)).thenReturn(50);
-        op.liste_intervalle(persons, date, ageMax, ageMin);
+        OutilsPerson.liste_intervalle(persons, date, ageMax, ageMin);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testListIntervalleException5() {
         when(mockPerson.getAge(date)).thenReturn(40);
-        op.liste_intervalle(persons, date, ageMax, ageMin);
+        OutilsPerson.liste_intervalle(persons, date, ageMax, ageMin);
     }
 
     @Test
     public void testListe_intervalle1() {
         when(mockPerson.getAge(date)).thenReturn(25);
-        Assert.assertEquals(new ArrayList<IPerson>(), op.liste_intervalle(persons, date, ageMin, ageMax));
+        Assert.assertEquals(new ArrayList<IPerson>(), OutilsPerson.liste_intervalle(persons, date, ageMin, ageMax));
     }
 
     @Test
     public void testListe_intervalle2() {
         when(mockPerson.getAge(date)).thenReturn(55);
-        Assert.assertEquals(new ArrayList<IPerson>(), op.liste_intervalle(persons, date, ageMin, ageMax));
+        Assert.assertEquals(new ArrayList<IPerson>(), OutilsPerson.liste_intervalle(persons, date, ageMin, ageMax));
     }
 
     @Test
     public void testListe_intervalle3() {
         when(mockPerson.getAge(date)).thenReturn(30);
-        Assert.assertEquals(new ArrayList<IPerson>(Collections.singletonList(mockPerson)), op.liste_intervalle(persons, date, ageMin, ageMax));
+        Assert.assertEquals(new ArrayList<IPerson>(Collections.singletonList(mockPerson)), OutilsPerson.liste_intervalle(persons, date, ageMin, ageMax));
     }
 
     @Test
     public void testListe_intervalle4() {
         when(mockPerson.getAge(date)).thenReturn(50);
-        Assert.assertEquals(new ArrayList<IPerson>(Collections.singletonList(mockPerson)), op.liste_intervalle(persons, date, ageMin, ageMax));
+        Assert.assertEquals(new ArrayList<IPerson>(Collections.singletonList(mockPerson)), OutilsPerson.liste_intervalle(persons, date, ageMin, ageMax));
     }
 
     @Test
     public void testListe_intervalle5() {
         when(mockPerson.getAge(date)).thenReturn(40);
-        Assert.assertEquals(new ArrayList<IPerson>(Collections.singletonList(mockPerson)), op.liste_intervalle(persons, date, ageMin, ageMax));
+        Assert.assertEquals(new ArrayList<IPerson>(Collections.singletonList(mockPerson)), OutilsPerson.liste_intervalle(persons, date, ageMin, ageMax));
     }
 
     @Test
@@ -149,25 +147,39 @@ public class TestOutilsPerson {
         expected.add(mockPerson4);
         expected.add(mockPerson5);
 
-        Assert.assertEquals(expected, op.liste_intervalle(full, date, ageMin, ageMax));
+        Assert.assertEquals(expected, OutilsPerson.liste_intervalle(full, date, ageMin, ageMax));
+    }
+
+    @Test
+    public void testList_intervalle_name() {
+        when(mockPerson.getAge(date)).thenReturn(40);
+        Assert.assertEquals(new ArrayList<IPerson>(Collections.singletonList(mockPerson)), OutilsPerson.liste_intervalle(persons, date, ageMin, ageMax));
+        verify(mockPerson, times(0)).getName();
+    }
+
+    @Test
+    public void testList_intervalle_firstname() {
+        when(mockPerson.getAge(date)).thenReturn(40);
+        Assert.assertEquals(new ArrayList<IPerson>(Collections.singletonList(mockPerson)), OutilsPerson.liste_intervalle(persons, date, ageMin, ageMax));
+        verify(mockPerson, times(0)).getFirstName();
     }
 
     @Test
     public void testChercher_doyen1() {
         when(mockPerson.getAge(date)).thenThrow(new IllegalArgumentException());
-        Assert.assertEquals(-1, op.chercher_doyen(persons, date));
+        Assert.assertEquals(-1, OutilsPerson.chercher_doyen(persons, date));
     }
 
     @Test
     public void testChercher_doyen2() {
         when(mockPerson.getAge(date)).thenReturn(30);
-        Assert.assertEquals(30, op.chercher_doyen(persons, date));
+        Assert.assertEquals(30, OutilsPerson.chercher_doyen(persons, date));
     }
 
     @Test
     public void testChercher_doyen3() {
         when(mockPerson.getAge(date)).thenReturn(0);
-        Assert.assertEquals(0, op.chercher_doyen(persons, date));
+        Assert.assertEquals(0, OutilsPerson.chercher_doyen(persons, date));
     }
 
     @Test
@@ -178,8 +190,8 @@ public class TestOutilsPerson {
         when(mockPerson3.getAge(date)).thenReturn(0);
         full.add(mockPerson1);
         full.add(mockPerson2);
-        full.add(mockPerson3);     
-        Assert.assertEquals(30, op.chercher_doyen(full, date));
+        full.add(mockPerson3);
+        Assert.assertEquals(30, OutilsPerson.chercher_doyen(full, date));
     }
 
 }

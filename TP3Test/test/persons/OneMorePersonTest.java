@@ -9,21 +9,21 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import people.SimplePerson;
+import people.OneMorePerson;
 
 /**
  *
  * @author Epulapp
  */
-public class TestSimplePerson extends TestIPerson{
+public class OneMorePersonTest extends IPersonTest {
 
-    public TestSimplePerson() {
+    public OneMorePersonTest() {
     }
 
     @Before
     public void setUp() {
-        //test avec SimplePerson
-        p = new SimplePerson("Gomez", "Gwendoline", 1994, 10, 13);    
+        //test avec OneMorePerson
+        p = new OneMorePerson("Gomez", "Gwendoline", 1994, 10, 13);    
     }
 
     // Erreur dans testGetAge :

@@ -12,9 +12,9 @@ import people.AnotherPerson;
  *
  * @author Epulapp
  */
-public class TestAnotherPerson extends TestIPerson {
+public class AnotherPersonTest extends IPersonTest {
 
-    public TestAnotherPerson() {
+    public AnotherPersonTest() {
     }
 
     @Before

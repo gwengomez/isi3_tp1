@@ -15,9 +15,9 @@ import people.EfficientPerson;
  *
  * @author Epulapp
  */
-public class TestEfficientPerson extends TestIPerson {
+public class EfficientPersonTest extends IPersonTest {
 
-    public TestEfficientPerson() {
+    public EfficientPersonTest() {
     }
 
     @Before

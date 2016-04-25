@@ -16,7 +16,7 @@ import persons.*;
  */
 public class OutilsPerson {
     
-    public List<IPerson> liste_intervalle(List<IPerson> lesPersonnes, GregorianCalendar date, int ageMinimal, int ageMaximal) {
+    public static List<IPerson> liste_intervalle(List<IPerson> lesPersonnes, GregorianCalendar date, int ageMinimal, int ageMaximal) {
         if (ageMinimal > ageMaximal)
             throw new IllegalArgumentException("L'âge minimum est supèrieur à l'âge maximum");
         List<IPerson> personnesSelectionnees = new ArrayList<>();
@@ -30,7 +30,7 @@ public class OutilsPerson {
         return personnesSelectionnees;
     }
     
-    public int chercher_doyen(List<IPerson> lesPersonnes, GregorianCalendar date) {
+    public static int chercher_doyen(List<IPerson> lesPersonnes, GregorianCalendar date) {
         int age = -1;
         int ageP = 0;
         for (IPerson p : lesPersonnes) {

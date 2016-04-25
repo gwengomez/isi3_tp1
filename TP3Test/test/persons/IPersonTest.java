@@ -17,7 +17,7 @@ import org.junit.Test;
  *
  * @author Epulapp
  */
-public abstract class TestIPerson {
+public abstract class IPersonTest {
 
     protected IPerson p;
     
@@ -62,7 +62,7 @@ public abstract class TestIPerson {
     private static int d;
     private static int da;
 
-    public TestIPerson() {
+    public IPersonTest() {
     }
 
     @BeforeClass

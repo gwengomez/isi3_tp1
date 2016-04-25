@@ -69,5 +69,23 @@
     properties which you can use, check the target you are overriding in the
     nbproject/build-impl.xml file. 
 
-    -->
+    -->    
+    <property environment="env"/>
+    <path id="cobertura.class.path">
+        <fileset dir="${build.dir}/../antlib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+    <taskdef classpathref="cobertura.class.path" resource="tasks.properties"/>
+    <target name="-pre-compile-test">
+        <delete dir="${build.instrumented.dir}" />
+        <delete dir="${build.report.cobertura.dir}" />
+        <mkdir dir="${build.instrumented.dir}" />
+        <mkdir dir="${build.report.cobertura.dir}" />
+        <cobertura-instrument todir="${build.instrumented.dir}" classpathref="cobertura.class.path">
+            <fileset dir="${build.classes.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+        </cobertura-instrument>
+    </target>
 </project>

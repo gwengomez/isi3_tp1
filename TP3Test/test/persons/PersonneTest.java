@@ -12,9 +12,9 @@ import org.junit.Before;
  *
  * @author Epulapp
  */
-public class TestPersonne extends TestIPerson{
+public class PersonneTest extends IPersonTest{
     
-    public TestPersonne() {
+    public PersonneTest() {
     }
     
     @Before

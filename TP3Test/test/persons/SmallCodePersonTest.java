@@ -9,24 +9,23 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import people.OneMorePerson;
+import people.SmallCodePerson;
 
 /**
  *
  * @author Epulapp
  */
-public class TestOneMorePerson extends TestIPerson {
+public class SmallCodePersonTest extends IPersonTest {
 
-    public TestOneMorePerson() {
+    public SmallCodePersonTest() {
     }
 
     @Before
     public void setUp() {
-        //test avec OneMorePerson
-        p = new OneMorePerson("Gomez", "Gwendoline", 1994, 10, 13);    
+        //test avec SmallCodePerson
+        p = new SmallCodePerson("Gomez", "Gwendoline", 1994, 10, 13);
     }
-
-    // Erreur dans testGetAge :
-    // Expected : 0
-    // Résultat : -1
+    
+    // Erreur dans testWasBorn :
+    // Date de naissance qui ne va pas
 }
