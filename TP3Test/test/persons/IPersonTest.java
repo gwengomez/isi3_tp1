@@ -65,6 +65,7 @@ public abstract class IPersonTest {
     public IPersonTest() {
     }
 
+    // Initialisation de tous les cas de test
     @BeforeClass
     public static void setUpClass() {
         yb = 1993;
@@ -255,27 +256,6 @@ public abstract class IPersonTest {
     public void testGetAgeInvalidYMDb() {
         p.getAge(ymdb);
     }
-    
-    /*@Rule
-    public ExpectedException exception = ExpectedException.none();
-
-    @Test
-    public void testGetAgeInvalid() {
-        exception.expect(IllegalArgumentException.class);
-        p.getAge(ybmbdb);
-        p.getAge(ybmbd);
-        p.getAge(ybmbda);
-        p.getAge(ybmadb);
-        p.getAge(ybmad);
-        p.getAge(ybmada);
-        p.getAge(ybmdb);
-        p.getAge(ybmd);
-        p.getAge(ybmda);
-        p.getAge(ymbdb);
-        p.getAge(ymbdb);
-        p.getAge(ymbda);
-        p.getAge(ymdb);
-    }*/
     
     // Erreur 364 jours apres la naissance (année suivante, même mois, jour précédent)
 }
