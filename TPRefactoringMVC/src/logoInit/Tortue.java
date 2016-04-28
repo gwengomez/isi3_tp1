@@ -2,7 +2,8 @@ package logoInit;
 
 // package logo;
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * ***********************************************************************
@@ -20,6 +21,7 @@ import java.util.*;
  */
 public class Tortue {
 
+    //class segment consisting of two points and a color
     protected class Segment {
 
         public Point ptStart, ptEnd;
@@ -58,6 +60,9 @@ public class Tortue {
         return coul;
     }
 
+    /**
+     * Contructor
+     */
     public Tortue() {
         listSegments = new ArrayList<Segment>();
         reset();
@@ -88,12 +93,12 @@ public class Tortue {
             seg.drawSegment(graph);
         }
 
-		//Calcule les 3 coins du triangle a partir de
+        //Calcule les 3 coins du triangle a partir de
         // la position de la tortue p
         Point p = new Point(x, y);
         Polygon arrow = new Polygon();
 
-		//Calcule des deux bases
+        //Calcule des deux bases
         //Angle de la droite
         double theta = ratioDegRad * (-dir);
         //Demi angle au sommet du triangle
