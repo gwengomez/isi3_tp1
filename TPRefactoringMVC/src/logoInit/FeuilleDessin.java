@@ -1,7 +1,6 @@
 package logoInit;
 
 // package logo;
-import Model.Tortue;
 import java.awt.*;
 import javax.swing.*;
 import java.util.*;
@@ -52,7 +51,7 @@ public class FeuilleDessin extends JPanel {
         }
     }
     
-    public void drawTurtle(Graphics graph) {
+    /*public void drawTurtle(Graphics graph) {
         if (graph == null) {
             return;
         }
@@ -85,5 +84,5 @@ public class FeuilleDessin extends JPanel {
         arrow.addPoint(p2.x, p2.y);
         graph.setColor(Color.green);
         graph.fillPolygon(arrow);
-    }
+    }*/
 }
