@@ -12,9 +12,9 @@ import persons.*;
  */
 
 // Mise en place du pattern Adapter pour la classe IPerson
+// La classe Personne n'utilise pas les mêmes méthodes que l'interface IPerson. Cette classe sert à l'adapter
 public class PersonneAdapter extends Personne implements IPerson {
     
-    // Constructeur qui appelle 
     public PersonneAdapter(String nom, String prenom, int annee, int mois, int jour) {
         super(nom, prenom, annee, mois, jour);
     }
