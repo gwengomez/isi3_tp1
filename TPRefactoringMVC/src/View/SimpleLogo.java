@@ -5,6 +5,8 @@
  */
 package View;
 
+import Controller.LogoController;
+import Model.Tortue;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,6 +18,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -32,15 +36,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 import logoInit.FeuilleDessin;
-import logoInit.Tortue;
 
 /**
  *
  * @author Epulapp
  */
-public class SimpleLogo extends JFrame {
+public class SimpleLogo extends JFrame implements Observer {
     //dimension (height and width) of both gaps
 
     public static final Dimension VGAP = new Dimension(1, 5);
@@ -54,6 +56,8 @@ public class SimpleLogo extends JFrame {
     private JTextField inputValue;
     //ref to inner class instance of Actionlistener
     private SimpleLogoListener listener;
+    
+    private LogoController controleur;
 
     /**
      * Constructor Call JFrame constructor and init function then add a listener
@@ -62,6 +66,7 @@ public class SimpleLogo extends JFrame {
     public SimpleLogo() {
         super("un logo tout simple");
         logoInit();
+        controleur = new LogoController(this, courante);
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -110,7 +115,7 @@ public class SimpleLogo extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JComboBox cb = (JComboBox) e.getSource();
                 int n = cb.getSelectedIndex();
-                courante.setColor(n);
+                courante.setCoul(n);
             }
         });
 
@@ -130,6 +135,7 @@ public class SimpleLogo extends JFrame {
         addMenuItem(menuCommandes, "Gauche", "Gauche", -1);
         addMenuItem(menuCommandes, "Lever Crayon", "Lever", -1);
         addMenuItem(menuCommandes, "Baisser Crayon", "Baisser", -1);
+        addMenuItem(menuCommandes, "Colorer Crayon", "Colorer", -1);
 
         JMenu menuHelp = new JMenu("Aide"); // on installe le premier menu
         menubar.add(menuHelp);
@@ -142,13 +148,13 @@ public class SimpleLogo extends JFrame {
         JPanel p2 = new JPanel(new GridLayout());
         JButton b20 = new JButton("Proc1");
         p2.add(b20);
-        b20.addActionListener(this);
+        b20.addActionListener(new SimpleLogoListener());
         JButton b21 = new JButton("Proc2");
         p2.add(b21);
-        b21.addActionListener(this);
+        b21.addActionListener(new SimpleLogoListener());
         JButton b22 = new JButton("Proc3");
         p2.add(b22);
-        b22.addActionListener(this);
+        b22.addActionListener(new SimpleLogoListener());
 
         getContentPane().add(p2, "South");
 
@@ -163,11 +169,12 @@ public class SimpleLogo extends JFrame {
         Tortue tortue = new Tortue();
 
         // Deplacement de la tortue au centre de la feuille
-        tortue.setPosition(500 / 2, 400 / 2);
+        tortue.setX(500/2);
+        tortue.setY(400/2);
 
         courante = tortue;
         feuille.addTortue(tortue);
-
+        
         pack();
         setVisible(true);
     }
@@ -192,7 +199,7 @@ public class SimpleLogo extends JFrame {
     /**
      * les procedures Logo qui combine plusieurs commandes..
      */
-    public void proc1() {
+    /*public void proc1() {
         courante.carre();
     }
 
@@ -202,7 +209,7 @@ public class SimpleLogo extends JFrame {
 
     public void proc3() {
         courante.spiral(50, 40, 6);
-    }
+    }*/
 
     // efface tout et reinitialise la feuille
     public void effacer() {
@@ -211,7 +218,8 @@ public class SimpleLogo extends JFrame {
 
         // Replace la tortue au centre
         Dimension size = feuille.getSize();
-        courante.setPosition(size.width / 2, size.height / 2);
+        courante.setX(size.width / 2);
+        courante.setX(size.height / 2);
     }
 
     //utilitaires pour installer des boutons et des menus
@@ -233,7 +241,7 @@ public class SimpleLogo extends JFrame {
         b.setToolTipText(tooltiptext);
         b.setBorder(BorderFactory.createRaisedBevelBorder());
         b.setMargin(new Insets(0, 0, 0, 0));
-        b.addActionListener(this);
+        b.addActionListener(new SimpleLogoListener());
     }
 
     public void addMenuItem(JMenu m, String label, String command, int key) {
@@ -242,7 +250,7 @@ public class SimpleLogo extends JFrame {
         m.add(menuItem);
 
         menuItem.setActionCommand(command);
-        menuItem.addActionListener(this);
+        menuItem.addActionListener(new SimpleLogoListener());
         if (key > 0) {
             if (key != KeyEvent.VK_DELETE) {
                 menuItem.setAccelerator(KeyStroke.getKeyStroke(key, Event.CTRL_MASK, false));
@@ -250,6 +258,11 @@ public class SimpleLogo extends JFrame {
                 menuItem.setAccelerator(KeyStroke.getKeyStroke(key, 0, false));
             }
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        // TODO actualiser feuille
     }
 
     public class SimpleLogoListener implements ActionListener {
@@ -266,7 +279,7 @@ public class SimpleLogo extends JFrame {
                 System.out.println("command avancer");
                 try {
                     int v = Integer.parseInt(inputValue.getText());
-                    courante.avancer(v);
+                    controleur.avancer(v);
                 } catch (NumberFormatException ex) {
                     System.err.println("ce n'est pas un nombre : " + inputValue.getText());
                 }
@@ -274,22 +287,30 @@ public class SimpleLogo extends JFrame {
             } else if (c.equals("Droite")) {
                 try {
                     int v = Integer.parseInt(inputValue.getText());
-                    courante.droite(v);
+                    controleur.droite(v);
                 } catch (NumberFormatException ex) {
                     System.err.println("ce n'est pas un nombre : " + inputValue.getText());
                 }
             } else if (c.equals("Gauche")) {
                 try {
                     int v = Integer.parseInt(inputValue.getText());
-                    courante.gauche(v);
+                    controleur.gauche(v);
                 } catch (NumberFormatException ex) {
                     System.err.println("ce n'est pas un nombre : " + inputValue.getText());
                 }
             } else if (c.equals("Lever")) {
-                courante.leverCrayon();
+                controleur.leverCrayon();
             } else if (c.equals("Baisser")) {
-                courante.baisserCrayon();
-            } // actions des boutons du bas
+                controleur.baisserCrayon();
+            } else if (c.equals("Colorer")) {
+                try {
+                    int v = Integer.parseInt(inputValue.getText());
+                    controleur.colorerCrayon(v);
+                } catch (NumberFormatException ex) {
+                    System.err.println("ce n'est pas un nombre : " + inputValue.getText());
+                }
+                
+            /*}// actions des boutons du bas
             else if (c.equals("Proc1")) {
                 proc1();
             } else if (c.equals("Proc2")) {
@@ -297,7 +318,7 @@ public class SimpleLogo extends JFrame {
             } else if (c.equals("Proc3")) {
                 proc3();
             } else if (c.equals("Effacer")) {
-                effacer();
+                effacer();*/
             } else if (c.equals("Quitter")) {
                 quitter();
             }
