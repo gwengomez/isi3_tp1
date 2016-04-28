@@ -10,12 +10,11 @@ import persons.*;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/**
- *
- * @author Epulapp
- */
-public class PersonneAdapter extends Personne implements IPerson {
 
+// Mise en place du pattern Adapter pour la classe IPerson
+public class PersonneAdapter extends Personne implements IPerson {
+    
+    // Constructeur qui appelle 
     public PersonneAdapter(String nom, String prenom, int annee, int mois, int jour) {
         super(nom, prenom, annee, mois, jour);
     }

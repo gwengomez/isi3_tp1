@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
  */
 public class OutilsPersonTest {
 
-    private IPerson mockPerson;
+    private IPerson mockPerson; // personne non définie (utilisée toute seule)
     private IPerson mockPerson1; //age < ageMin
     private IPerson mockPerson2; //age > ageMax
     private IPerson mockPerson3; //age = ageMin
@@ -75,67 +75,88 @@ public class OutilsPersonTest {
     public void tearDown() {
 
     }
-
+    
+    // TESTS : inversion de l'age min et de l'age max dans l'appel de la méthode
+    // Celle ci doit renvoyer une exception dans chacun des cas
+    
+    // L'age de la personne est inférieur à l'intervalle d'age selectionné
     @Test(expected = IllegalArgumentException.class)
     public void testListIntervalleException1() {
         when(mockPerson.getAge(date)).thenReturn(25);
         OutilsPerson.liste_intervalle(onePerson, date, ageMax, ageMin);
     }
-
+    
+    // L'age de la personne est supérieur à l'intervalle d'age selectionné
     @Test(expected = IllegalArgumentException.class)
     public void testListIntervalleException2() {
         when(mockPerson.getAge(date)).thenReturn(55);
         OutilsPerson.liste_intervalle(onePerson, date, ageMax, ageMin);
     }
 
+    // L'age de la personne est égale à la borne inférieure de l'intervalle d'age selectionné
     @Test(expected = IllegalArgumentException.class)
     public void testListIntervalleException3() {
         when(mockPerson.getAge(date)).thenReturn(30);
         OutilsPerson.liste_intervalle(onePerson, date, ageMax, ageMin);
     }
 
+    // L'age de la personne est égal à la borne supérieure de l'intervalle d'age selectionné
     @Test(expected = IllegalArgumentException.class)
     public void testListIntervalleException4() {
         when(mockPerson.getAge(date)).thenReturn(50);
         OutilsPerson.liste_intervalle(onePerson, date, ageMax, ageMin);
     }
 
+    // L'age de la personne est compris dans l'intervalle d'age selectionné
     @Test(expected = IllegalArgumentException.class)
     public void testListIntervalleException5() {
         when(mockPerson.getAge(date)).thenReturn(40);
         OutilsPerson.liste_intervalle(onePerson, date, ageMax, ageMin);
     }
-
+    
+    
+    // TESTS : pour chaque cas de personne, on teste le comportement de la méthode
+    // Celle-ci ne doit renvoyer la personne que si son age est compris dans l'intervalle sélectionné
+    
+    // L'age de la personne est inférieur à l'intervalle d'age selectionné
     @Test
     public void testListe_intervalle1() {
         when(mockPerson.getAge(date)).thenReturn(25);
         Assert.assertEquals(new ArrayList<IPerson>(), OutilsPerson.liste_intervalle(onePerson, date, ageMin, ageMax));
     }
 
+    // L'age de la personne est supérieur à l'intervalle d'age selectionné
     @Test
     public void testListe_intervalle2() {
         when(mockPerson.getAge(date)).thenReturn(55);
         Assert.assertEquals(new ArrayList<IPerson>(), OutilsPerson.liste_intervalle(onePerson, date, ageMin, ageMax));
     }
 
+    // L'age de la personne est égale à la borne inférieure de l'intervalle d'age selectionné
     @Test
     public void testListe_intervalle3() {
         when(mockPerson.getAge(date)).thenReturn(30);
         Assert.assertEquals(new ArrayList<IPerson>(Collections.singletonList(mockPerson)), OutilsPerson.liste_intervalle(onePerson, date, ageMin, ageMax));
     }
 
+    // L'age de la personne est égal à la borne supérieure de l'intervalle d'age selectionné
     @Test
     public void testListe_intervalle4() {
         when(mockPerson.getAge(date)).thenReturn(50);
         Assert.assertEquals(new ArrayList<IPerson>(Collections.singletonList(mockPerson)), OutilsPerson.liste_intervalle(onePerson, date, ageMin, ageMax));
     }
 
+    // L'age de la personne est compris dans l'intervalle d'age selectionné
     @Test
     public void testListe_intervalle5() {
         when(mockPerson.getAge(date)).thenReturn(40);
         Assert.assertEquals(new ArrayList<IPerson>(Collections.singletonList(mockPerson)), OutilsPerson.liste_intervalle(onePerson, date, ageMin, ageMax));
     }
 
+    
+    // TESTS : tous les cas sont placés dans la liste qui est passée en paramètre de la méthode à tester
+    // Celle ci ne doit renvoyer que les personnes dont l'age est compris dans l'intervalle testé.
+    
     @Test
     public void testListe_all() {
         when(mockPerson1.getAge(date)).thenReturn(25);
@@ -151,7 +172,12 @@ public class OutilsPersonTest {
 
         Assert.assertEquals(expected, OutilsPerson.liste_intervalle(persons, date, ageMin, ageMax));
     }
-
+    
+    
+    // TESTS : on choisi un cas dont l'age est compris dans l'intervalle d'age sélectionné
+    // La méthode ne doit pas appeler certaines méthodes de la classe IPerson
+    
+    // Pas d'appel de getName()
     @Test
     public void testList_intervalle_name() {
         when(mockPerson.getAge(date)).thenReturn(40);
@@ -160,6 +186,7 @@ public class OutilsPersonTest {
         verify(mockPerson, atLeastOnce()).getAge(date);
     }
 
+    // Pas d'appel de getFirstName()
     @Test
     public void testList_intervalle_firstname() {
         when(mockPerson.getAge(date)).thenReturn(40);
@@ -167,25 +194,33 @@ public class OutilsPersonTest {
         verify(mockPerson, times(0)).getFirstName();
         verify(mockPerson, atLeastOnce()).getAge(date);
     }
+    
+    
+    // TESTS : méthode chercher_doyen
+    // On vérifie le comportement de la méthode
 
+    // Lorsque la méthode getAge() renvoie une erreur, la méthode doit renvoyer -1
     @Test
     public void testChercher_doyen1() {
         when(mockPerson.getAge(date)).thenThrow(new IllegalArgumentException());
         Assert.assertEquals(-1, OutilsPerson.chercher_doyen(onePerson, date));
     }
 
+    // La méthode renvoie bien l'age max
     @Test
     public void testChercher_doyen2() {
         when(mockPerson.getAge(date)).thenReturn(30);
         Assert.assertEquals(30, OutilsPerson.chercher_doyen(onePerson, date));
     }
 
+    // Il ne doit pas y avoir d'erreur lorsque l'age max est 0 : la méthode doit renvoyer 0
     @Test
     public void testChercher_doyen3() {
         when(mockPerson.getAge(date)).thenReturn(0);
         Assert.assertEquals(0, OutilsPerson.chercher_doyen(onePerson, date));
     }
-
+    
+    // On place les 3 cas ci-dessus dans une liste à tester : la méthode doit renvoyer la valeur maximum
     @Test
     public void testChercher_doyen_all() {
         List<IPerson> full = new ArrayList<>();
