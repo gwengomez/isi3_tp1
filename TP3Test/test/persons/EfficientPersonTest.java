@@ -26,9 +26,4 @@ public class EfficientPersonTest extends IPersonTest {
         p = new EfficientPerson("Gomez", "Gwendoline", 1994, 10, 13);
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
 }
