@@ -36,7 +36,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
-import logoInit.FeuilleDessin;
+import View.FeuilleDessin;
+import java.awt.Point;
+import java.awt.Polygon;
 
 /**
  *
@@ -54,9 +56,11 @@ public class SimpleLogo extends JFrame implements Observer {
     private Tortue courante;
     //ref to a JTextField
     private JTextField inputValue;
+    //ref to a combobox (color picker)
+    private JComboBox colorList;
     //ref to inner class instance of Actionlistener
     private SimpleLogoListener listener;
-    
+    //ref to controller
     private LogoController controleur;
 
     /**
@@ -66,7 +70,7 @@ public class SimpleLogo extends JFrame implements Observer {
     public SimpleLogo() {
         super("un logo tout simple");
         logoInit();
-        controleur = new LogoController(this, courante);
+        //controleur = new LogoController(this, courante);
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -107,17 +111,11 @@ public class SimpleLogo extends JFrame implements Observer {
         toolBar.add(Box.createRigidArea(HGAP));
         JLabel colorLabel = new JLabel("   Couleur: ");
         toolBar.add(colorLabel);
-        JComboBox colorList = new JComboBox(colorStrings);
+        colorList = new JComboBox(colorStrings);
         toolBar.add(colorList);
+        colorList.setActionCommand("Colorer");
 
-        
-        colorList.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JComboBox cb = (JComboBox) e.getSource();
-                int n = cb.getSelectedIndex();
-                courante.setCoul(n);
-            }
-        });
+        colorList.addActionListener(listener);
 
         // Menus
         JMenuBar menubar = new JMenuBar();
@@ -196,21 +194,6 @@ public class SimpleLogo extends JFrame implements Observer {
         return (s);
     }
 
-    /**
-     * les procedures Logo qui combine plusieurs commandes..
-     */
-    /*public void proc1() {
-        courante.carre();
-    }
-
-    public void proc2() {
-        courante.poly(60, 8);
-    }
-
-    public void proc3() {
-        courante.spiral(50, 40, 6);
-    }*/
-
     // efface tout et reinitialise la feuille
     public void effacer() {
         feuille.reset();
@@ -262,7 +245,37 @@ public class SimpleLogo extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        // TODO actualiser feuille
+
+        //Calcule les 3 coins du triangle a partir de
+        // la position de la tortue p
+        int x = this.courante.getX();
+        int y = this.courante.getY();
+        Point p = new Point(x, y);
+        Polygon arrow = new Polygon();
+
+        //Calcule des deux bases
+        //Angle de la droite
+        double theta = ratioDegRad * (-dir);
+        //Demi angle au sommet du triangle
+        double alpha = Math.atan((float) rb / (float) rp);
+        //Rayon de la fleche
+        double r = Math.sqrt(rp * rp + rb * rb);
+		//Sens de la fleche
+
+        //Pointe
+        Point p2 = new Point((int) Math.round(p.x + r * Math.cos(theta)),
+                (int) Math.round(p.y - r * Math.sin(theta)));
+        arrow.addPoint(p2.x, p2.y);
+        arrow.addPoint((int) Math.round(p2.x - r * Math.cos(theta + alpha)),
+                (int) Math.round(p2.y + r * Math.sin(theta + alpha)));
+
+        //Base2
+        arrow.addPoint((int) Math.round(p2.x - r * Math.cos(theta - alpha)),
+                (int) Math.round(p2.y + r * Math.sin(theta - alpha)));
+
+        arrow.addPoint(p2.x, p2.y);
+        graph.setColor(Color.green);
+        graph.fillPolygon(arrow);
     }
 
     public class SimpleLogoListener implements ActionListener {
@@ -303,22 +316,18 @@ public class SimpleLogo extends JFrame implements Observer {
             } else if (c.equals("Baisser")) {
                 controleur.baisserCrayon();
             } else if (c.equals("Colorer")) {
-                try {
-                    int v = Integer.parseInt(inputValue.getText());
-                    controleur.colorerCrayon(v);
-                } catch (NumberFormatException ex) {
-                    System.err.println("ce n'est pas un nombre : " + inputValue.getText());
-                }
-                
-            /*}// actions des boutons du bas
+                JComboBox cb = (JComboBox) e.getSource();
+                int n = cb.getSelectedIndex();
+                controleur.colorerCrayon(n);                
+            }// actions des boutons du bas
             else if (c.equals("Proc1")) {
-                proc1();
+                controleur.carre();
             } else if (c.equals("Proc2")) {
-                proc2();
+                controleur.poly(60, 8);
             } else if (c.equals("Proc3")) {
-                proc3();
+                controleur.spiral(50, 40, 6);
             } else if (c.equals("Effacer")) {
-                effacer();*/
+                effacer();
             } else if (c.equals("Quitter")) {
                 quitter();
             }
