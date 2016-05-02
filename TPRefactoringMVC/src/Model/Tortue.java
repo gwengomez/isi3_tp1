@@ -22,24 +22,23 @@ public class Tortue extends Observable {
     protected int dir;
     protected int coul;
     protected Forme forme;
-    private boolean crayon;
-    private static final double ratioDegRad = 0.0174533;
+    public static final double ratioDegRad = 0.0174533;
+    public static final int rp = 10, rb = 5; // Taille de la pointe et de la base de la fleche
 
-    public Tortue(int x, int y, int dir, int coul, Forme forme, boolean crayon) {
+    public Tortue(int x, int y, int dir, int coul, Forme forme) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.coul = coul;
         this.forme = forme;
-        this.crayon = crayon;
     }
 
     public Tortue() {
-        this(0, 0, -90, 0, Forme.TRIANGLE, true);
+        this(0, 0, -90, 0, Forme.TRIANGLE);
     }
 
     public Tortue(Forme f) {
-        this(0, 0, -90, 0, f, true);
+        this(0, 0, -90, 0, f);
     }
 
     public int getX() {
@@ -85,25 +84,16 @@ public class Tortue extends Observable {
         this.setChangedAndNotify();
     }
 
-    public boolean isCrayon() {
-        return crayon;
-    }
-
-    public void setCrayon(boolean crayon) {
-        this.crayon = crayon;
-    }
-
     public void reset() {
         x = 0;
         y = 0;
         dir = -90;
         coul = 0;
-        crayon = true;
     }
 
     private void setChangedAndNotify() {
         this.setChanged();
-        this.notify();
+        this.notifyObservers();
     }
 
     public void avancer(int v) {

@@ -1,4 +1,7 @@
 
+import Controller.LogoController;
+import Model.Tortue;
+import View.SimpleLogo;
 import javax.swing.SwingUtilities;
 
 /*
@@ -23,7 +26,9 @@ public class Main {
                 //build Tortue
                 //Build controller passing tortue as parameter
                 //Build UI passing tortue and controller as parameter
-                logoInit.SimpleLogo fenetre = new logoInit.SimpleLogo();
+                Tortue t = new Tortue();
+                LogoController ctrl = new LogoController(t);
+                SimpleLogo fenetre = new SimpleLogo(ctrl, t);
                 fenetre.setVisible(true);
             }
         });

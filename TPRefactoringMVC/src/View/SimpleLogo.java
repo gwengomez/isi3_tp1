@@ -36,9 +36,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
-import View.FeuilleDessin;
-import java.awt.Point;
-import java.awt.Polygon;
 
 /**
  *
@@ -67,11 +64,13 @@ public class SimpleLogo extends JFrame implements Observer {
      * Constructor Call JFrame constructor and init function then add a listener
      * on the window closing event
      */
-    public SimpleLogo() {
+    public SimpleLogo(LogoController ctrl, Tortue t) {
         super("un logo tout simple");
+        this.controleur = ctrl;
+        this.courante = t;
+        this.listener = new SimpleLogoListener();
         logoInit();
-        //controleur = new LogoController(this, courante);
-
+        t.addObserver(this);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent arg0) {
@@ -116,7 +115,6 @@ public class SimpleLogo extends JFrame implements Observer {
         colorList.setActionCommand("Colorer");
 
         colorList.addActionListener(listener);
-
         // Menus
         JMenuBar menubar = new JMenuBar();
         setJMenuBar(menubar);	// on installe le menu bar
@@ -146,13 +144,13 @@ public class SimpleLogo extends JFrame implements Observer {
         JPanel p2 = new JPanel(new GridLayout());
         JButton b20 = new JButton("Proc1");
         p2.add(b20);
-        b20.addActionListener(new SimpleLogoListener());
+        b20.addActionListener(listener);
         JButton b21 = new JButton("Proc2");
         p2.add(b21);
-        b21.addActionListener(new SimpleLogoListener());
+        b21.addActionListener(listener);
         JButton b22 = new JButton("Proc3");
         p2.add(b22);
-        b22.addActionListener(new SimpleLogoListener());
+        b22.addActionListener(listener);
 
         getContentPane().add(p2, "South");
 
@@ -163,15 +161,10 @@ public class SimpleLogo extends JFrame implements Observer {
 
         getContentPane().add(feuille, "Center");
 
-        // Creation de la tortue
-        Tortue tortue = new Tortue();
-
         // Deplacement de la tortue au centre de la feuille
-        tortue.setX(500/2);
-        tortue.setY(400/2);
+        this.controleur.moveToCenter(new Dimension(500, 400));
 
-        courante = tortue;
-        feuille.addTortue(tortue);
+        feuille.addTortue(this.courante);
         
         pack();
         setVisible(true);
@@ -200,9 +193,8 @@ public class SimpleLogo extends JFrame implements Observer {
         feuille.repaint();
 
         // Replace la tortue au centre
-        Dimension size = feuille.getSize();
-        courante.setX(size.width / 2);
-        courante.setX(size.height / 2);
+        this.controleur.reset();
+        this.controleur.moveToCenter(feuille.getSize());
     }
 
     //utilitaires pour installer des boutons et des menus
@@ -224,7 +216,7 @@ public class SimpleLogo extends JFrame implements Observer {
         b.setToolTipText(tooltiptext);
         b.setBorder(BorderFactory.createRaisedBevelBorder());
         b.setMargin(new Insets(0, 0, 0, 0));
-        b.addActionListener(new SimpleLogoListener());
+        b.addActionListener(listener);
     }
 
     public void addMenuItem(JMenu m, String label, String command, int key) {
@@ -233,7 +225,7 @@ public class SimpleLogo extends JFrame implements Observer {
         m.add(menuItem);
 
         menuItem.setActionCommand(command);
-        menuItem.addActionListener(new SimpleLogoListener());
+        menuItem.addActionListener(listener);
         if (key > 0) {
             if (key != KeyEvent.VK_DELETE) {
                 menuItem.setAccelerator(KeyStroke.getKeyStroke(key, Event.CTRL_MASK, false));
@@ -245,37 +237,8 @@ public class SimpleLogo extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
-        //Calcule les 3 coins du triangle a partir de
-        // la position de la tortue p
-        int x = this.courante.getX();
-        int y = this.courante.getY();
-        Point p = new Point(x, y);
-        Polygon arrow = new Polygon();
-
-        //Calcule des deux bases
-        //Angle de la droite
-        double theta = ratioDegRad * (-dir);
-        //Demi angle au sommet du triangle
-        double alpha = Math.atan((float) rb / (float) rp);
-        //Rayon de la fleche
-        double r = Math.sqrt(rp * rp + rb * rb);
-		//Sens de la fleche
-
-        //Pointe
-        Point p2 = new Point((int) Math.round(p.x + r * Math.cos(theta)),
-                (int) Math.round(p.y - r * Math.sin(theta)));
-        arrow.addPoint(p2.x, p2.y);
-        arrow.addPoint((int) Math.round(p2.x - r * Math.cos(theta + alpha)),
-                (int) Math.round(p2.y + r * Math.sin(theta + alpha)));
-
-        //Base2
-        arrow.addPoint((int) Math.round(p2.x - r * Math.cos(theta - alpha)),
-                (int) Math.round(p2.y + r * Math.sin(theta - alpha)));
-
-        arrow.addPoint(p2.x, p2.y);
-        graph.setColor(Color.green);
-        graph.fillPolygon(arrow);
+        //this.feuille.
+        this.repaint();
     }
 
     public class SimpleLogoListener implements ActionListener {
@@ -311,10 +274,6 @@ public class SimpleLogo extends JFrame implements Observer {
                 } catch (NumberFormatException ex) {
                     System.err.println("ce n'est pas un nombre : " + inputValue.getText());
                 }
-            } else if (c.equals("Lever")) {
-                controleur.leverCrayon();
-            } else if (c.equals("Baisser")) {
-                controleur.baisserCrayon();
             } else if (c.equals("Colorer")) {
                 JComboBox cb = (JComboBox) e.getSource();
                 int n = cb.getSelectedIndex();

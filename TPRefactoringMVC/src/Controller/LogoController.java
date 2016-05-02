@@ -6,7 +6,8 @@
 package Controller;
 
 import Model.Tortue;
-import View.SimpleLogo;
+import java.awt.Dimension;
+//import View.SimpleLogo;
 
 /**
  *
@@ -14,11 +15,10 @@ import View.SimpleLogo;
  */
 public class LogoController {
 
-    private SimpleLogo view;
+    //private SimpleLogo view;
     private Tortue tortue;
 
-    public LogoController(SimpleLogo view, Tortue tortue) {
-        this.view = view;
+    public LogoController(Tortue tortue) {
         this.tortue = tortue;
     }
 
@@ -32,14 +32,6 @@ public class LogoController {
 
     public void gauche(int v) {
         tortue.gauche(v);
-    }
-
-    public void leverCrayon() {
-        tortue.setCrayon(false);
-    }
-
-    public void baisserCrayon() {
-        tortue.setCrayon(true);
     }
 
     public void colorerCrayon(int v) {
@@ -56,5 +48,14 @@ public class LogoController {
 
     public void spiral(int n, int k, int a) {
         tortue.spiral(n, k, a);
+    }
+
+    public void reset() {
+        tortue.reset();
+    }
+
+    public void moveToCenter(Dimension dimension) {
+        this.tortue.setX((int) (dimension.getWidth()/2));
+        this.tortue.setY((int) (dimension.getHeight()/2));
     }
 }
