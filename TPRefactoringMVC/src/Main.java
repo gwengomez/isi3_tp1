@@ -2,6 +2,7 @@
 import Controller.LogoController;
 import Model.Forme;
 import Model.Tortue;
+import View.ModeChooser;
 import View.SimpleLogo;
 import javax.swing.SwingUtilities;
 
@@ -23,14 +24,8 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                //TODO
-                //build Tortue
-                //Build controller passing tortue as parameter
-                //Build UI passing tortue and controller as parameter
-                Tortue t = new Tortue(Forme.CARRE);
-                LogoController ctrl = new LogoController(t);
-                SimpleLogo fenetre = new SimpleLogo(ctrl, t);
-                fenetre.setVisible(true);
+                ModeChooser m = new ModeChooser();
+                m.setVisible(true);
             }
         });
 

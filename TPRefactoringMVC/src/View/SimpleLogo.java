@@ -16,6 +16,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Observable;
@@ -49,12 +51,10 @@ public class SimpleLogo extends JFrame implements Observer {
 
     //ref to FeuilleDessin
     private FeuilleDessin feuille;
-    //ref to Tortue
-    private Tortue courante;
     //ref to a JTextField
     private JTextField inputValue;
     //ref to a combobox (color picker)
-    private JComboBox colorList;
+    private JComboBox colorList, formeList;
     //ref to inner class instance of Actionlistener
     private SimpleLogoListener listener;
     //ref to controller
@@ -64,13 +64,10 @@ public class SimpleLogo extends JFrame implements Observer {
      * Constructor Call JFrame constructor and init function then add a listener
      * on the window closing event
      */
-    public SimpleLogo(LogoController ctrl, Tortue t) {
+    public SimpleLogo() {
         super("un logo tout simple");
-        this.controleur = ctrl;
-        this.courante = t;
         this.listener = new SimpleLogoListener();
         logoInit();
-        t.addObserver(this);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent arg0) {
@@ -101,12 +98,13 @@ public class SimpleLogo extends JFrame implements Observer {
         addButton(toolBar, "Avancer", "Avancer 50", null);
         addButton(toolBar, "Droite", "Droite 45", null);
         addButton(toolBar, "Gauche", "Gauche 45", null);
+        //addButton(toolBar, "+ Tortue", "Ajouter une tortue", null);
 
         String[] colorStrings = {"noir", "bleu", "cyan", "gris fonce", "rouge",
             "vert", "gris clair", "magenta", "orange",
             "gris", "rose", "jaune"};
 
-        // Create the combo box
+        // Create the combo box (for color)
         toolBar.add(Box.createRigidArea(HGAP));
         JLabel colorLabel = new JLabel("   Couleur: ");
         toolBar.add(colorLabel);
@@ -115,6 +113,19 @@ public class SimpleLogo extends JFrame implements Observer {
         colorList.setActionCommand("Colorer");
 
         colorList.addActionListener(listener);
+        
+        String[] formeStrings = {"ronde", "carré", "triangle"};
+        
+        // Create the comboBox (to add a tortue)              
+        toolBar.add(Box.createRigidArea(HGAP));
+        JLabel formeLabel = new JLabel("Ajouter Tortue: ");
+        toolBar.add(formeLabel);
+        formeList = new JComboBox(formeStrings);
+        toolBar.add(formeList);
+        formeList.setActionCommand("Add Tortue");
+        formeList.setSelectedIndex(0);
+        formeList.addActionListener(listener);
+        
         // Menus
         JMenuBar menubar = new JMenuBar();
         setJMenuBar(menubar);	// on installe le menu bar
@@ -129,9 +140,6 @@ public class SimpleLogo extends JFrame implements Observer {
         addMenuItem(menuCommandes, "Avancer", "Avancer", -1);
         addMenuItem(menuCommandes, "Droite", "Droite", -1);
         addMenuItem(menuCommandes, "Gauche", "Gauche", -1);
-        addMenuItem(menuCommandes, "Lever Crayon", "Lever", -1);
-        addMenuItem(menuCommandes, "Baisser Crayon", "Baisser", -1);
-        addMenuItem(menuCommandes, "Colorer Crayon", "Colorer", -1);
 
         JMenu menuHelp = new JMenu("Aide"); // on installe le premier menu
         menubar.add(menuHelp);
@@ -161,13 +169,20 @@ public class SimpleLogo extends JFrame implements Observer {
 
         getContentPane().add(feuille, "Center");
 
-        // Deplacement de la tortue au centre de la feuille
-        this.controleur.moveToCenter(new Dimension(500, 400));
-
-        feuille.addTortue(this.courante);
         
+        this.feuille.addMouseListener(new SimpleLogoMouseListener());
         pack();
         setVisible(true);
+    }
+    
+    public void registerTortue(Tortue t) {
+        this.feuille.addTortue(t);
+        // Deplacement de la tortue au centre de la feuille
+        this.controleur.moveTo(feuille.getSize().width/2, feuille.getSize().height/2);
+    }
+    
+    public void registerController(LogoController ctrl) {
+        this.controleur = ctrl;
     }
 
     /**
@@ -194,7 +209,7 @@ public class SimpleLogo extends JFrame implements Observer {
 
         // Replace la tortue au centre
         this.controleur.reset();
-        this.controleur.moveToCenter(feuille.getSize());
+        this.controleur.moveTo(feuille.getSize().width/2, feuille.getSize().height/2);
     }
 
     //utilitaires pour installer des boutons et des menus
@@ -274,6 +289,11 @@ public class SimpleLogo extends JFrame implements Observer {
                 } catch (NumberFormatException ex) {
                     System.err.println("ce n'est pas un nombre : " + inputValue.getText());
                 }
+            } else if(c.equals("Add Tortue")) {
+                JComboBox cb = (JComboBox) e.getSource();
+                String forme = (String)cb.getSelectedItem();
+                int color = colorList.getSelectedIndex();
+                controleur.addTortue(forme, color);                
             } else if (c.equals("Colorer")) {
                 JComboBox cb = (JComboBox) e.getSource();
                 int n = cb.getSelectedIndex();
@@ -297,4 +317,31 @@ public class SimpleLogo extends JFrame implements Observer {
 
     }
 
+   public class SimpleLogoMouseListener implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            controleur.selectTortue(e.getPoint());
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+        }
+       
+   }
 }

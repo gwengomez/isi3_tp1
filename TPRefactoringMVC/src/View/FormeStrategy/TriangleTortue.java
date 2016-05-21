@@ -6,6 +6,7 @@
 package View.FormeStrategy;
 
 import Model.Tortue;
+import Tools.BoundingBox;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
@@ -18,34 +19,7 @@ public class TriangleTortue implements DrawingStrategy {
 
     @Override
     public void draw(Tortue t, Graphics g) {
-         //Calcule les 3 coins du triangle a partir de
-        // la position de la tortue p
-        int x = t.getX();
-        int y = t.getY();
-        Point p = new Point(x, y);
-        Polygon arrow = new Polygon();
-
-        //Calcule des deux bases
-        //Angle de la droite
-        double theta = Tortue.ratioDegRad * (-t.getDir());
-        //Demi angle au sommet du triangle
-        double alpha = Math.atan((float) Tortue.rb / (float) Tortue.rp);
-        //Rayon de la fleche
-        double r = Math.sqrt(Tortue.rp * Tortue.rp + Tortue.rb * Tortue.rb);
-		//Sens de la fleche
-
-        //Pointe
-        Point p2 = new Point((int) Math.round(p.x + r * Math.cos(theta)),
-                (int) Math.round(p.y - r * Math.sin(theta)));
-        arrow.addPoint(p2.x, p2.y);
-        arrow.addPoint((int) Math.round(p2.x - r * Math.cos(theta + alpha)),
-                (int) Math.round(p2.y + r * Math.sin(theta + alpha)));
-
-        //Base2
-        arrow.addPoint((int) Math.round(p2.x - r * Math.cos(theta - alpha)),
-                (int) Math.round(p2.y + r * Math.sin(theta - alpha)));
-
-        g.fillPolygon(arrow);
+        g.fillPolygon(BoundingBox.GetTriangle(t.getX(), t.getY(), Tortue.ratioDegRad, t.getDir(), Tortue.rb, Tortue.rp));
     }
     
 }
