@@ -5,14 +5,18 @@
  */
 package View.FormeStrategy;
 
-import Model.Forme;
 import Model.Tortue;
 import java.awt.Graphics;
 
 /**
  *
- * @author Epulapp
+ * @author Erwan
  */
-public interface DrawingStrategy {
-    public void draw(Tortue t, Graphics g);
+public class RondeTortue implements DrawingStrategy{
+
+    @Override
+    public void draw(Tortue t, Graphics g) {
+        g.fillOval(t.getX(), t.getY(), Tortue.rp, Tortue.rp);
+    }
+    
 }

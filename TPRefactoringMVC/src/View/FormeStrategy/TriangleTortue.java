@@ -6,6 +6,7 @@
 package View.FormeStrategy;
 
 import Model.Tortue;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
 
@@ -16,7 +17,7 @@ import java.awt.Polygon;
 public class TriangleTortue implements DrawingStrategy {
 
     @Override
-    public Polygon getPolygon(Tortue t) {
+    public void draw(Tortue t, Graphics g) {
          //Calcule les 3 coins du triangle a partir de
         // la position de la tortue p
         int x = t.getX();
@@ -44,7 +45,7 @@ public class TriangleTortue implements DrawingStrategy {
         arrow.addPoint((int) Math.round(p2.x - r * Math.cos(theta - alpha)),
                 (int) Math.round(p2.y + r * Math.sin(theta - alpha)));
 
-        return arrow;
+        g.fillPolygon(arrow);
     }
     
 }

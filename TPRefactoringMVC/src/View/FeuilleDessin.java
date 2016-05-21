@@ -5,6 +5,7 @@
  */
 package View;
 
+import Model.Forme;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -12,8 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JPanel;
 import Model.Tortue;
-import View.FormeStrategy.CarreTortue;
-import View.FormeStrategy.TriangleTortue;
+import View.FormeStrategy.*;
 import java.awt.Polygon;
 
 /**
@@ -22,7 +22,7 @@ import java.awt.Polygon;
  */
 public class FeuilleDessin extends JPanel {
 
-    private ArrayList<Tortue> tortues; // la liste des tortues enregistrees
+    private ArrayList<Tortue> tortues; // la liste des tortues enregistrees 
 
     public FeuilleDessin() {
         tortues = new ArrayList<Tortue>();
@@ -63,19 +63,20 @@ public class FeuilleDessin extends JPanel {
     private void drawTurtle(Graphics g, Tortue t) {
         Polygon p;
         g.setColor(decodeColor(t.getCoul()));
-        switch (t.getForme()) {
+        DrawingStrategy strategy = this.getStrategy(t.getForme());
+        strategy.draw(t, g);
+    }
+
+    private DrawingStrategy getStrategy(Forme f) {
+        switch (f) {
             case RONDE:
-                g.fillOval(t.getX(), t.getY(), Tortue.rp, Tortue.rp);
-                return;
+                return new RondeTortue();
             case CARRE:
-                p = new CarreTortue().getPolygon(t);
-                break;
+                return new CarreTortue();
             case TRIANGLE:
             default:
-                p = new TriangleTortue().getPolygon(t);
-                break;
+                return new TriangleTortue();
         }
-        g.fillPolygon(p);
     }
 
     public Color decodeColor(int c) {
