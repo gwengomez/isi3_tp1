@@ -5,7 +5,6 @@
  */
 package View.FormeStrategy;
 
-import Model.Forme;
 import Model.Tortue;
 import java.awt.Graphics;
 

@@ -6,56 +6,83 @@
 package View;
 
 import Controller.LogoController;
+import Model.Tortue;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Observable;
 import java.util.Observer;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 
 /**
  *
  * @author Epulapp
  */
-public class SimpleLogo extends TortuesView implements Observer {
+public class SimpleLogoOLD extends JFrame implements Observer {
     //dimension (height and width) of both gaps
 
     public static final Dimension VGAP = new Dimension(1, 5);
     public static final Dimension HGAP = new Dimension(5, 1);
 
+    //ref to FeuilleDessin
+    private FeuilleDessin feuille;
     //ref to a JTextField
     private JTextField inputValue;
     //ref to a combobox (color picker)
     private JComboBox colorList, formeList;
-    //controller
+    //ref to inner class instance of Actionlistener
+    private SimpleLogoListener listener;
+    //ref to controller
     private LogoController controleur;
 
     /**
      * Constructor Call JFrame constructor and init function then add a listener
      * on the window closing event
      */
-    public SimpleLogo() {
-        super();
+    public SimpleLogoOLD() {
+        super("un logo tout simple");
+        this.listener = new SimpleLogoListener();
+        logoInit();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent arg0) {
+                super.windowClosing(arg0);
+                System.exit(0);
+            }
+        });
     }
+
     /**
      * create all the UI items and instanciate the Tortue and FeuilleDessin
      */
-    @Override
-    public void addComponents() {
+    public void logoInit() {
+        getContentPane().setLayout(new BorderLayout(10, 10));
+
         // Boutons
         JToolBar toolBar = new JToolBar();
         JPanel buttonPanel = new JPanel();
@@ -100,14 +127,26 @@ public class SimpleLogo extends TortuesView implements Observer {
         formeList.addActionListener(listener);
         
         // Menus
+        JMenuBar menubar = new JMenuBar();
+        setJMenuBar(menubar);	// on installe le menu bar
+        JMenu menuFile = new JMenu("File"); // on installe le premier menu
+        menubar.add(menuFile);
 
         addMenuItem(menuFile, "Effacer", "Effacer", KeyEvent.VK_N);
+        addMenuItem(menuFile, "Quitter", "Quitter", KeyEvent.VK_Q);
 
         JMenu menuCommandes = new JMenu("Commandes"); // on installe le premier menu
         menubar.add(menuCommandes);
         addMenuItem(menuCommandes, "Avancer", "Avancer", -1);
         addMenuItem(menuCommandes, "Droite", "Droite", -1);
         addMenuItem(menuCommandes, "Gauche", "Gauche", -1);
+
+        JMenu menuHelp = new JMenu("Aide"); // on installe le premier menu
+        menubar.add(menuHelp);
+        addMenuItem(menuHelp, "Aide", "Help", -1);
+        addMenuItem(menuHelp, "A propos", "About", -1);
+
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // les boutons du bas
         JPanel p2 = new JPanel(new GridLayout());
@@ -122,10 +161,36 @@ public class SimpleLogo extends TortuesView implements Observer {
         b22.addActionListener(listener);
 
         getContentPane().add(p2, "South");
+
+        feuille = new FeuilleDessin();
+        feuille.setBackground(Color.white);
+        feuille.setSize(new Dimension(600, 400));
+        feuille.setPreferredSize(new Dimension(600, 400));
+
+        getContentPane().add(feuille, "Center");
+
         
         this.feuille.addMouseListener(new SimpleLogoMouseListener());
         pack();
         setVisible(true);
+    }
+    
+    public void registerTortue(Tortue t) {
+        this.feuille.addTortue(t);
+        t.addObserver(this);
+        // Deplacement de la tortue au centre de la feuille
+        this.controleur.moveTo(feuille.getSize().width/2, feuille.getSize().height/2);
+    }
+    
+    public void registerController(LogoController ctrl) {
+        this.controleur = ctrl;
+    }
+
+    /**
+     * exit the app
+     */
+    private void quitter() {
+        System.exit(0);
     }
 
     /**
@@ -137,23 +202,58 @@ public class SimpleLogo extends TortuesView implements Observer {
         String s = inputValue.getText();
         return (s);
     }
-    
-    public void registerController(LogoController c) {
-        this.controleur = c;
-    }
 
     // efface tout et reinitialise la feuille
     public void effacer() {
         feuille.reset();
         feuille.repaint();
 
-        //Reset la position de toutes les tortues
+        // Replace la tortue au centre
         this.controleur.reset();
+        this.controleur.moveTo(feuille.getSize().width/2, feuille.getSize().height/2);
+    }
+
+    //utilitaires pour installer des boutons et des menus
+    public void addButton(JComponent p, String name, String tooltiptext, String imageName) {
+        JButton b;
+        if ((imageName == null) || (imageName.equals(""))) {
+            b = (JButton) p.add(new JButton(name));
+        } else {
+            java.net.URL u = this.getClass().getResource(imageName);
+            if (u != null) {
+                ImageIcon im = new ImageIcon(u);
+                b = (JButton) p.add(new JButton(im));
+            } else {
+                b = (JButton) p.add(new JButton(name));
+            }
+            b.setActionCommand(name);
+        }
+
+        b.setToolTipText(tooltiptext);
+        b.setBorder(BorderFactory.createRaisedBevelBorder());
+        b.setMargin(new Insets(0, 0, 0, 0));
+        b.addActionListener(listener);
+    }
+
+    public void addMenuItem(JMenu m, String label, String command, int key) {
+        JMenuItem menuItem;
+        menuItem = new JMenuItem(label);
+        m.add(menuItem);
+
+        menuItem.setActionCommand(command);
+        menuItem.addActionListener(listener);
+        if (key > 0) {
+            if (key != KeyEvent.VK_DELETE) {
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(key, Event.CTRL_MASK, false));
+            } else {
+                menuItem.setAccelerator(KeyStroke.getKeyStroke(key, 0, false));
+            }
+        }
     }
 
     @Override
-    public void setActionListener() {
-        this.listener = new SimpleLogoListener();
+    public void update(Observable o, Object arg) {
+        this.feuille.repaint();
     }
 
     public class SimpleLogoListener implements ActionListener {

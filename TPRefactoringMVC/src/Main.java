@@ -3,7 +3,9 @@ import Controller.LogoController;
 import Model.Forme;
 import Model.Tortue;
 import View.ModeChooser;
-import View.SimpleLogo;
+import View.SimpleLogoOLD;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.SwingUtilities;
 
 /*
@@ -25,6 +27,9 @@ public class Main {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 ModeChooser m = new ModeChooser();
+                //center approximatively the window
+                Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+                m.setLocation((dimension.width / 2) - (m.getWidth() / 2), (dimension.height / 2) - (m.getHeight()));
                 m.setVisible(true);
             }
         });

@@ -8,8 +8,6 @@ package View.FormeStrategy;
 import Model.Tortue;
 import Tools.BoundingBox;
 import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Polygon;
 
 /**
  *

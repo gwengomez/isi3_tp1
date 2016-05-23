@@ -9,6 +9,7 @@ import Model.Forme;
 import Model.Tortue;
 import Tools.BoundingBox;
 import View.SimpleLogo;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -16,22 +17,26 @@ import java.util.ArrayList;
  *
  * @author Epulapp
  */
-public class LogoController {
+public class LogoController{
 
-    private SimpleLogo sl;
     private Tortue courante;
+    private SimpleLogo v;
     private ArrayList<Tortue> tortues;
 
-    public LogoController(Tortue tortue, SimpleLogo sl) {
-        this.courante = tortue;
-        this.tortues = new ArrayList<Tortue>();
-        this.tortues.add(tortue);
-        this.sl = sl;
-        this.sl.registerController(this);
-        this.sl.registerTortue(tortue);
+    public LogoController(SimpleLogo v) {
+        this.v = v;
+        this.tortues = new ArrayList<>();      
+        this.v.registerController(this);
+        this.addTortue("triangle", 0);
     }
 
-    public void avancer(int v) {        
+    public void reset() {
+       for(Tortue t : tortues) {
+           t.reset();
+       }    
+    }
+    
+    public void avancer(int v) {     
         courante.avancer(v);
     }
 
@@ -59,10 +64,6 @@ public class LogoController {
         courante.spiral(n, k, a);
     }
 
-    public void reset() {
-        courante.reset();
-    }
-
     public void moveTo(int x, int y) {
         this.courante.setX(x);
         this.courante.setY(y);
@@ -85,8 +86,10 @@ public class LogoController {
         this.courante = new Tortue(f);
         this.courante.setCoul(color);
         this.tortues.add(courante);
-        this.courante.addObserver(sl);
-        this.sl.registerTortue(courante);
+        this.v.registerTortue(courante);
+        Dimension d = this.v.getFeuilleDimension();
+        this.courante.setX(d.width/2);
+        this.courante.setY(d.height/2);
     }
 
     public void selectTortue(Point p) {

@@ -56,6 +56,7 @@ public class Tortue extends Observable {
 
     public void setY(int y) {
         this.y = y;
+        this.setChangedAndNotify();
     }
 
     public int getDir() {
@@ -64,6 +65,7 @@ public class Tortue extends Observable {
 
     public void setDir(int dir) {
         this.dir = dir;
+        this.setChangedAndNotify();
     }
 
     public int getCoul() {
@@ -89,6 +91,7 @@ public class Tortue extends Observable {
         y = 0;
         dir = -90;
         coul = 0;
+        this.setChangedAndNotify();
     }
 
     private void setChangedAndNotify() {
@@ -120,10 +123,12 @@ public class Tortue extends Observable {
             droite(360 / a);
             n = n + 1;
         }
+        this.setChangedAndNotify();
     }
 
     public void couleur(int n) {
         this.setCoul(n % 12);
+        this.setChangedAndNotify();
     }
 
     public void poly(int n, int a) {
@@ -131,6 +136,7 @@ public class Tortue extends Observable {
             avancer(n);
             droite(360 / a);
         }
+        this.setChangedAndNotify();
     }
 
     public void carre() {
@@ -138,5 +144,6 @@ public class Tortue extends Observable {
             avancer(100);
             droite(90);
         }
+        this.setChangedAndNotify();
     }
 }

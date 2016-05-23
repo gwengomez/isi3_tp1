@@ -6,8 +6,7 @@
 package View;
 
 import Controller.LogoController;
-import Model.Forme;
-import Model.Tortue;
+import Controller.TortuesController;
 
 /**
  *
@@ -94,12 +93,13 @@ public class ModeChooser extends javax.swing.JFrame {
 
     private void buttonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOKActionPerformed
         if(optionNormal.isSelected()) {
-            Tortue t = new Tortue(Forme.CARRE);
             SimpleLogo fenetre = new SimpleLogo();
-            LogoController ctrl = new LogoController(t, fenetre);
+            LogoController ctrl = new LogoController(fenetre);
             fenetre.setVisible(true);
         } else {
-            
+            AutonomeView fenetre = new AutonomeView();
+            TortuesController ctrl = new TortuesController(fenetre);
+            fenetre.setVisible(true);
         }
         this.dispose();
     }//GEN-LAST:event_buttonOKActionPerformed
