@@ -5,7 +5,6 @@
  */
 package Controller;
 
-import Model.Tortue;
 import Model.TortueAutonome;
 import View.TortuesView;
 import java.util.ArrayList;
@@ -28,5 +27,4 @@ public class TortuesController {
     private void generateTortues(int n) {
         
     }
-    
 }
