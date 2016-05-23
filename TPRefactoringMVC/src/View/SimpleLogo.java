@@ -6,8 +6,6 @@
 package View;
 
 import Controller.LogoController;
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -19,10 +17,8 @@ import java.util.Observer;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;

@@ -5,6 +5,7 @@
  */
 package View;
 
+import Controller.TortuesController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,13 +14,21 @@ import java.awt.event.ActionListener;
  * @author Epulapp
  */
 public class AutonomeView extends TortuesView {
+    
+    private TortuesController ctrl;
 
     @Override
-    public void addComponents() {}
+    public void addComponents() {
+        addMenuItem(this.menuFile, "Stop", "Stop", -1);
+    }
 
     @Override
     public void setActionListener() {
         this.listener = new TortuesViewListener();
+    }
+    
+    public void registerController(TortuesController c) {
+        this.ctrl = c;
     }
 
     public class TortuesViewListener implements ActionListener {
@@ -29,6 +38,8 @@ public class AutonomeView extends TortuesView {
             String c = e.getActionCommand();
             if (c.equals("Quitter")) {
                 quitter();
+            } else if(c.equals("Stop")) {
+                ctrl.stop();
             }
         }
     }

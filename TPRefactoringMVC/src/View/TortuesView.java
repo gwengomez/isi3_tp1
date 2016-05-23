@@ -63,6 +63,7 @@ public abstract class TortuesView extends JFrame implements Observer {
                 System.exit(0);
             }
         });
+        this.setResizable(false);
     }
 
     /**

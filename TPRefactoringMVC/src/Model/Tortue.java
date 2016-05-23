@@ -64,7 +64,7 @@ public class Tortue extends Observable {
     }
 
     public void setDir(int dir) {
-        this.dir = dir;
+        this.dir = dir % 360;
         this.setChangedAndNotify();
     }
 
@@ -94,13 +94,12 @@ public class Tortue extends Observable {
         this.setChangedAndNotify();
     }
 
-    private void setChangedAndNotify() {
+    protected void setChangedAndNotify() {
         this.setChanged();
         this.notifyObservers();
     }
 
     public void avancer(int v) {
-
         this.x = (int) Math.round(x + v * Math.cos(ratioDegRad * this.dir));
         this.y = (int) Math.round(y + v * Math.sin(ratioDegRad * this.dir));
         this.setChangedAndNotify();

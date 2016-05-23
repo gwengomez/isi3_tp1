@@ -1,9 +1,5 @@
 
-import Controller.LogoController;
-import Model.Forme;
-import Model.Tortue;
 import View.ModeChooser;
-import View.SimpleLogoOLD;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.SwingUtilities;
