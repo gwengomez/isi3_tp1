@@ -7,32 +7,48 @@ package Controller;
 
 import Model.Forme;
 import Model.TortueAutonome;
+import Model.TortueFlocking;
 import View.AutonomeView;
 import View.TortuesView;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
- * @author Epulapp
+ * @author Erwan
  */
-public class TortuesController extends AbstractTortuesController{
+public class FlockingController extends AbstractTortuesController{
 
     private TortuesView v;
     private ArrayList<TortueAutonome> tortues;
     private Thread t;
     private GameLoop gl;
 
-    public TortuesController(TortuesView v) {
+    public FlockingController(TortuesView v) {
         this.v = v;
-        ((AutonomeView)this.v).registerController(this);
+        ((AutonomeView) this.v).registerController(this);
         TortueAutonome.setFieldBoundaries(this.v.getFeuilleDimension().width, this.v.getFeuilleDimension().height);
         this.tortues = new ArrayList<>();
         generateTortues(20);
-        gl = new GameLoop(tortues);
+        /*gl = new GameLoop(tortues);
         t = new Thread(gl);
-        t.start();
+        t.start();*/
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        try {
+            gl = new GameLoop(tortues);
+            Future<?> f = service.submit(gl);
+            f.get(2, TimeUnit.SECONDS);
+        } catch(Exception e) {
+            
+        } finally {
+            service.shutdown();
+        }
+        
     }
 
     @Override
@@ -56,15 +72,15 @@ public class TortuesController extends AbstractTortuesController{
                     f = Forme.TRIANGLE;
                     break;
             }
-            int vitesse = rand.nextInt(10) + 1; // between 1 and 10
+            int vitesse = rand.nextInt(20) + 1; // between 1 and 20
             int dir = rand.nextInt(361); //between 0 and 360
-            TortueAutonome t = new TortueAutonome(x, y, dir, 0, f, vitesse);
+            TortueFlocking t = new TortueFlocking(x, y, dir, 0, f, vitesse);
             this.tortues.add(t);
             t.addObserver(v);
             this.v.registerTortue(t);
         }
     }
-    
+
     public void stop() {
         this.gl.gameRunning = false;
     }

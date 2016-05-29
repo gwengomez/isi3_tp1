@@ -5,7 +5,7 @@
  */
 package View;
 
-import Controller.TortuesController;
+import Controller.AbstractTortuesController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
  */
 public class AutonomeView extends TortuesView {
     
-    private TortuesController ctrl;
+    private AbstractTortuesController ctrl;
 
     @Override
     public void addComponents() {
@@ -27,7 +27,7 @@ public class AutonomeView extends TortuesView {
         this.listener = new TortuesViewListener();
     }
     
-    public void registerController(TortuesController c) {
+    public void registerController(AbstractTortuesController c) {
         this.ctrl = c;
     }
 
