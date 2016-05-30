@@ -9,34 +9,37 @@ import Model.Forme;
 import Model.Tortue;
 import Tools.BoundingBox;
 import View.SimpleLogo;
+import View.TortuesView;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import javax.swing.JComboBox;
 
 /**
  *
  * @author Epulapp
  */
-public class LogoController{
+public class LogoController extends AbstractTortuesController implements ActionListener {
 
     private Tortue courante;
-    private SimpleLogo v;
     private ArrayList<Tortue> tortues;
-
-    public LogoController(SimpleLogo v) {
-        this.v = v;
-        this.tortues = new ArrayList<>();      
-        this.v.registerController(this);
-        this.addTortue("triangle", 0);
-    }
+    private SimpleLogo sLogoView;
 
     public void reset() {
-       for(Tortue t : tortues) {
-           t.reset();
-       }    
+        for (Tortue t : tortues) {
+            t.reset();
+        }
     }
     
-    public void avancer(int v) {     
+    public void setSimpleLogo(TortuesView v) {
+        super.setView(v);
+        this.sLogoView = (SimpleLogo)v;
+    }
+
+    public void avancer(int v) {
         courante.avancer(v);
     }
 
@@ -71,7 +74,7 @@ public class LogoController{
 
     public void addTortue(String forme, int color) {
         Forme f;
-        switch(forme) {
+        switch (forme) {
             case "ronde":
                 f = Forme.RONDE;
                 break;
@@ -88,16 +91,84 @@ public class LogoController{
         this.tortues.add(courante);
         this.v.registerTortue(courante);
         Dimension d = this.v.getFeuilleDimension();
-        this.courante.setX(d.width/2);
-        this.courante.setY(d.height/2);
+        this.courante.setX(d.width / 2);
+        this.courante.setY(d.height / 2);
     }
 
     public void selectTortue(Point p) {
-        for(Tortue t : this.tortues) {
-            if(BoundingBox.isInTortue(p, t)) {
+        for (Tortue t : this.tortues) {
+            if (BoundingBox.isInTortue(p, t)) {
                 this.courante = t;
                 break;
             }
         }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String c = e.getActionCommand();
+
+        // actions des boutons du haut
+        if (c.equals("Avancer")) {
+            try {
+                int v = Integer.parseInt(this.sLogoView.getInputValue());
+                this.avancer(v);
+            } catch (NumberFormatException ex) {
+                System.err.println("ce n'est pas un nombre : " + this.sLogoView.getInputValue());
+            }
+
+        } else if (c.equals("Droite")) {
+            try {
+                int v = Integer.parseInt(this.sLogoView.getInputValue());
+                this.droite(v);
+            } catch (NumberFormatException ex) {
+                System.err.println("ce n'est pas un nombre : " + this.sLogoView.getInputValue());
+            }
+        } else if (c.equals("Gauche")) {
+            try {
+                int v = Integer.parseInt(this.sLogoView.getInputValue());
+                this.gauche(v);
+            } catch (NumberFormatException ex) {
+                System.err.println("ce n'est pas un nombre : " + this.sLogoView.getInputValue());
+            }
+        } else if (c.equals("Add Tortue")) {
+            JComboBox cb = (JComboBox) e.getSource();
+            String forme = (String) cb.getSelectedItem();
+            int color = this.sLogoView.getColorListIndex();
+            this.addTortue(forme, color);
+        } else if (c.equals("Colorer")) {
+            JComboBox cb = (JComboBox) e.getSource();
+            int n = cb.getSelectedIndex();
+            this.colorerCrayon(n);
+        }// actions des boutons du bas
+        else if (c.equals("Proc1")) {
+            this.carre();
+        } else if (c.equals("Proc2")) {
+            this.poly(60, 8);
+        } else if (c.equals("Proc3")) {
+            this.spiral(50, 40, 6);
+        } else if (c.equals("Effacer")) {
+            this.sLogoView.effacer();
+            this.reset();
+        } else if (c.equals("Quitter")) {
+            this.v.quitter();
+        }
+    }
+
+    @Override
+    protected void generateTortues(int n) {
+
+    }
+
+    @Override
+    public void stop() {
+        
+    }
+
+    @Override
+    public void init() {
+        this.v.addMyMouseListener(new ViewMouseListener(this));
+        this.tortues = new ArrayList<>();
+        this.addTortue("triangle", 0);
     }
 }

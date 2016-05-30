@@ -18,7 +18,7 @@ public class TortueFlocking extends TortueAutonome {
     public static int visionRange = Tortue.rp * 8;
     public static int visionRadius = 70; //radius (+/- deg) which a turtle can see (between -visionRadius and +visionRadius - giving it a total radius of 2*visionRadius)
 
-    public static ArrayList<TortueAutonome> tortues;
+    public static ArrayList<Tortue> tortues;
 
     public TortueFlocking(int x, int y, int dir, int coul, Forme forme, int vitesse) {
         super(x, y, dir, coul, forme, vitesse);
@@ -27,39 +27,36 @@ public class TortueFlocking extends TortueAutonome {
     public TortueFlocking(Forme f, int vitesse, int dir) {
         super(f, vitesse, dir);
     }
-    
-    @Override
-    public void nextStep() {
-        
-    }
-    
-    public ArrayList<TortueAutonome> getNeighbourhood() {
+
+    /*public ArrayList<TortueAutonome> getNeighbourhood() {
         ArrayList<TortueAutonome> neighbour = new ArrayList<>();
-        for(TortueAutonome t : tortues) {
-            if(t == this) {
+        for (Tortue te : tortues) {
+            TortueAutonome t = (TortueAutonome)te;
+            if (t == this) {
                 continue;
             }
-            if(this.getDistance(new Point(t.x, t.y)) <= visionRange) {
+            if (this.getDistance(new Point(t.x, t.y)) <= visionRange) {
                 neighbour.add(t);
             }
         }
         return neighbour;
-    }
-    
-    public Point getCenter(ArrayList<TortueAutonome> ts) {
+    }*/
+
+    /*public Point getCenter(ArrayList<TortueAutonome> ts) {
         double x = 0, y = 0;
-        for(TortueAutonome t : ts) {
+        for (TortueAutonome t : ts) {
             x += t.x;
             y += t.y;
         }
-        return new Point((int)Math.round((y / ts.size())), (int) Math.round(x / ts.size()));
-    }
+        return new Point((int) Math.round((y / (ts.size() - 1))), (int) Math.round(x / (ts.size() - 1)));
+    }*/
 
-    /*@Override
+    @Override
     public void nextStep() {
         ArrayList<TortueAutonome> inVisionRange = new ArrayList<>();
         ArrayList<TortueAutonome> tooClose = new ArrayList<>();
-        for (TortueAutonome t : tortues) {
+        for (Tortue te : tortues) {
+            TortueAutonome t = (TortueAutonome)te;
             if (t == this) {
                 continue;
             }
@@ -67,12 +64,12 @@ public class TortueFlocking extends TortueAutonome {
             if (distance <= visionRange) {
                 inVisionRange.add(t);
             }
-            if(distance < distanceMin) {
-                tooClose.add(t);
-            }
         }
         ArrayList<TortueAutonome> inRadiusRange = new ArrayList<>();
         for (TortueAutonome t : inVisionRange) {
+            if(this.getDistance(new Point(t.x, t.y)) < distanceMin) {
+                tooClose.add(t);
+            }
             double vectorX = t.x - this.x;
             double vectorY = t.y - this.y;
             double distance = this.getDistance(new Point(t.x, t.y));
@@ -101,7 +98,7 @@ public class TortueFlocking extends TortueAutonome {
         }
         //no other Tortue in sight 
         if (inRadiusRange.isEmpty()) {
-            if(tooClose.size() != 0) {
+            if (tooClose.size() != 0) {
                 //we're too close from at least one Tortue
             }
             super.nextStep();
@@ -115,9 +112,12 @@ public class TortueFlocking extends TortueAutonome {
             moyDir = moyDir / inRadiusRange.size();
             this.setVitesse((int) Math.round(moyVitesse));
             this.setDir((int) Math.round(moyDir));
-            this.avancer(this.getVitesse());
+            if(tooClose.isEmpty())
+                this.avancer(this.getVitesse());
+            else
+                this.avancer(this.getVitesse()/2);
         }
-    }*/
+    }
 
     /*private ArrayList<Point> getPointsPossibles(TortueFlocking t) {
      ArrayList<Point> pts = new ArrayList<>();

@@ -13,6 +13,7 @@ import java.awt.Event;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Observable;
@@ -51,9 +52,9 @@ public abstract class TortuesView extends JFrame implements Observer {
      * Constructor Call JFrame constructor and init function then add a listener
      * on the window closing event
      */
-    public TortuesView() {
+    public TortuesView(ActionListener l) {
         super("Tortues");
-        setActionListener();
+        this.listener = l;
         logoInit();
         addComponents();
         addWindowListener(new WindowAdapter() {
@@ -100,8 +101,6 @@ public abstract class TortuesView extends JFrame implements Observer {
         setVisible(true);
     }
 
-    public abstract void setActionListener();
-
     public void registerTortue(Tortue t) {
         this.feuille.addTortue(t);
         t.addObserver(this);
@@ -114,7 +113,7 @@ public abstract class TortuesView extends JFrame implements Observer {
     /**
      * exit the app
      */
-    protected void quitter() {
+    public void quitter() {
         System.exit(0);
     }
 
@@ -153,6 +152,10 @@ public abstract class TortuesView extends JFrame implements Observer {
         b.setBorder(BorderFactory.createRaisedBevelBorder());
         b.setMargin(new Insets(0, 0, 0, 0));
         b.addActionListener(listener);
+    }
+    
+    public void addMyMouseListener(MouseListener ml) {
+        this.feuille.addMouseListener(ml);
     }
 
     @Override

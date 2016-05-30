@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Model.Tortue;
 import Model.TortueAutonome;
 import java.util.ArrayList;
 
@@ -14,15 +15,15 @@ import java.util.ArrayList;
  */
 public class AutonomeLoop extends GameLoop {
 
-    public AutonomeLoop(ArrayList<TortueAutonome> tortues) {
+    public AutonomeLoop(ArrayList<Tortue> tortues) {
         super(tortues);
     }
 
     @Override
     protected void doGameUpdates(double delta) {
-        for (TortueAutonome t : tortues) {
+        for (Tortue t : tortues) {
             for (int i = 0; i < delta; i++) {
-                t.nextStep();
+                ((TortueAutonome)t).nextStep();
             }
         }
     }

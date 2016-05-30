@@ -104,17 +104,23 @@ public class ModeChooser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOKActionPerformed
-        if(optionNormal.isSelected()) {
-            SimpleLogo fenetre = new SimpleLogo();
-            LogoController ctrl = new LogoController(fenetre);
+        if (optionNormal.isSelected()) {
+            LogoController ctrl = new LogoController();
+            SimpleLogo fenetre = new SimpleLogo(ctrl);
+            ctrl.setSimpleLogo(fenetre);
+            ctrl.init();
             fenetre.setVisible(true);
-        } else if(optionAutonome.isSelected()) {
-            AutonomeView fenetre = new AutonomeView();
-            TortuesController ctrl = new TortuesController(fenetre);
+        } else if (optionAutonome.isSelected()) {
+            TortuesController ctrl = new TortuesController();
+            AutonomeView fenetre = new AutonomeView(ctrl);
+            ctrl.setView(fenetre);
+            ctrl.init();
             fenetre.setVisible(true);
         } else {
-            AutonomeView fenetre = new AutonomeView();
-            FlockingController ctrl = new FlockingController(fenetre);
+            FlockingController ctrl = new FlockingController();
+            AutonomeView fenetre = new AutonomeView(ctrl);
+            ctrl.setView(fenetre);
+            ctrl.init();
             fenetre.setVisible(true);
         }
         this.dispose();

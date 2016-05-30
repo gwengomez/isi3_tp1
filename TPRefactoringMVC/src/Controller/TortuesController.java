@@ -7,9 +7,8 @@ package Controller;
 
 import Model.Forme;
 import Model.TortueAutonome;
-import View.AutonomeView;
-import View.TortuesView;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,23 +16,10 @@ import java.util.Random;
  *
  * @author Epulapp
  */
-public class TortuesController extends AbstractTortuesController{
+public class TortuesController extends AbstractTortuesController {
 
-    private TortuesView v;
-    private ArrayList<TortueAutonome> tortues;
     private Thread t;
     private GameLoop gl;
-
-    public TortuesController(TortuesView v) {
-        this.v = v;
-        ((AutonomeView)this.v).registerController(this);
-        TortueAutonome.setFieldBoundaries(this.v.getFeuilleDimension().width, this.v.getFeuilleDimension().height);
-        this.tortues = new ArrayList<>();
-        generateTortues(20);
-        gl = new AutonomeLoop(tortues);
-        t = new Thread(gl);
-        t.start();
-    }
 
     @Override
     protected void generateTortues(int n) {
@@ -56,7 +42,7 @@ public class TortuesController extends AbstractTortuesController{
                     f = Forme.TRIANGLE;
                     break;
             }
-            int vitesse = rand.nextInt(10) + 1; // between 1 and 10
+            int vitesse = rand.nextInt(20) + 1; // between 1 and 10
             int dir = rand.nextInt(361); //between 0 and 360
             TortueAutonome t = new TortueAutonome(x, y, dir, 0, f, vitesse);
             this.tortues.add(t);
@@ -64,8 +50,28 @@ public class TortuesController extends AbstractTortuesController{
             this.v.registerTortue(t);
         }
     }
-    
+
     public void stop() {
         this.gl.setGameRunning(false);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String c = e.getActionCommand();
+        if (c.equals("Quitter")) {
+            this.v.quitter();
+        } else if (c.equals("Stop")) {
+            this.stop();
+        }
+    }
+
+    @Override
+    public void init() {
+        TortueAutonome.setFieldBoundaries(this.v.getFeuilleDimension().width, this.v.getFeuilleDimension().height);
+        this.tortues = new ArrayList<>();
+        generateTortues(20);
+        gl = new AutonomeLoop(tortues);
+        t = new Thread(gl);
+        t.start();
     }
 }

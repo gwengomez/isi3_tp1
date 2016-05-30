@@ -5,7 +5,7 @@
  */
 package Controller;
 
-import Model.TortueAutonome;
+import Model.Tortue;
 import java.util.ArrayList;
 
 /**
@@ -15,9 +15,9 @@ import java.util.ArrayList;
 public abstract class GameLoop implements Runnable {
 
     private volatile boolean gameRunning = true;
-    protected ArrayList<TortueAutonome> tortues;
+    protected ArrayList<Tortue> tortues;
 
-    public GameLoop(ArrayList<TortueAutonome> tortues) {
+    public GameLoop(ArrayList<Tortue> tortues) {
         this.tortues = tortues;
     }
 

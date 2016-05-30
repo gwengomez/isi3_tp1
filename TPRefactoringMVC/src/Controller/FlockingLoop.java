@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Model.Tortue;
 import Model.TortueAutonome;
 import java.util.ArrayList;
 
@@ -14,14 +15,14 @@ import java.util.ArrayList;
  */
 public class FlockingLoop extends GameLoop {
     
-    public FlockingLoop(ArrayList<TortueAutonome> tortues) {
+    public FlockingLoop(ArrayList<Tortue> tortues) {
         super(tortues);
     }
 
     @Override
     protected void doGameUpdates(double delta) {
-        for (TortueAutonome t : tortues) {
-            t.nextStep();
+        for (Tortue t : tortues) {
+            ((TortueAutonome)t).nextStep();
         }
     }
 

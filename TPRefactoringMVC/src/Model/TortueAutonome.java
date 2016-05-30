@@ -46,15 +46,15 @@ public class TortueAutonome extends Tortue {
         this.x = (int) Math.round(x + this.vitesse * Math.cos(ratioDegRad * this.dir));
         this.y = (int) Math.round(y + this.vitesse * Math.sin(ratioDegRad * this.dir));
 
-        if (this.x > this.maxX) {
-            this.x = this.x - this.maxX;
+        if (this.x > maxX) {
+            this.x = this.x - maxX;
         } else if (this.x < 0) {
-            this.x = this.maxX + this.x;
+            this.x = maxX + this.x;
         }
-        if (this.y > this.maxY) {
-            this.y = this.y - this.maxY;
+        if (this.y > maxY) {
+            this.y = this.y - maxY;
         } else if (this.y < 0) {
-            this.y = this.maxY + this.y;
+            this.y = maxY + this.y;
         }
         this.setChangedAndNotify();
     }

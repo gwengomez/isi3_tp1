@@ -5,13 +5,27 @@
  */
 package Controller;
 
+import Model.Tortue;
+import View.TortuesView;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 /**
  *
  * @author Erwan
  */
-public abstract class AbstractTortuesController {
+public abstract class AbstractTortuesController implements ActionListener {
 
+    protected TortuesView v;
+    protected ArrayList<Tortue> tortues = new ArrayList<>();
+    
     protected abstract void generateTortues(int n);
    
     public abstract void stop();
+    
+    public void setView(TortuesView v) {
+        this.v = v;
+    }
+    
+    public abstract void init();
 }

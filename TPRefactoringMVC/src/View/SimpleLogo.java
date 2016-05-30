@@ -8,7 +8,6 @@ package View;
 import Controller.LogoController;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -37,15 +36,13 @@ public class SimpleLogo extends TortuesView implements Observer {
     private JTextField inputValue;
     //ref to a combobox (color picker)
     private JComboBox colorList, formeList;
-    //controller
-    private LogoController controleur;
 
     /**
      * Constructor Call JFrame constructor and init function then add a listener
      * on the window closing event
      */
-    public SimpleLogo() {
-        super();
+    public SimpleLogo(ActionListener al) {
+        super(al);
     }
     /**
      * create all the UI items and instanciate the Tortue and FeuilleDessin
@@ -118,8 +115,6 @@ public class SimpleLogo extends TortuesView implements Observer {
         b22.addActionListener(listener);
 
         getContentPane().add(p2, "South");
-        
-        this.feuille.addMouseListener(new SimpleLogoMouseListener());
         pack();
         setVisible(true);
     }
@@ -134,105 +129,13 @@ public class SimpleLogo extends TortuesView implements Observer {
         return (s);
     }
     
-    public void registerController(LogoController c) {
-        this.controleur = c;
+    public int getColorListIndex() {
+        return this.colorList.getSelectedIndex();
     }
 
     // efface tout et reinitialise la feuille
     public void effacer() {
         feuille.reset();
         feuille.repaint();
-
-        //Reset la position de toutes les tortues
-        this.controleur.reset();
     }
-
-    @Override
-    public void setActionListener() {
-        this.listener = new SimpleLogoListener();
-    }
-
-    public class SimpleLogoListener implements ActionListener {
-
-        /**
-         * la gestion des actions des boutons
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String c = e.getActionCommand();
-
-            // actions des boutons du haut
-            if (c.equals("Avancer")) {
-                try {
-                    int v = Integer.parseInt(inputValue.getText());
-                    controleur.avancer(v);
-                } catch (NumberFormatException ex) {
-                    System.err.println("ce n'est pas un nombre : " + inputValue.getText());
-                }
-
-            } else if (c.equals("Droite")) {
-                try {
-                    int v = Integer.parseInt(inputValue.getText());
-                    controleur.droite(v);
-                } catch (NumberFormatException ex) {
-                    System.err.println("ce n'est pas un nombre : " + inputValue.getText());
-                }
-            } else if (c.equals("Gauche")) {
-                try {
-                    int v = Integer.parseInt(inputValue.getText());
-                    controleur.gauche(v);
-                } catch (NumberFormatException ex) {
-                    System.err.println("ce n'est pas un nombre : " + inputValue.getText());
-                }
-            } else if(c.equals("Add Tortue")) {
-                JComboBox cb = (JComboBox) e.getSource();
-                String forme = (String)cb.getSelectedItem();
-                int color = colorList.getSelectedIndex();
-                controleur.addTortue(forme, color);                
-            } else if (c.equals("Colorer")) {
-                JComboBox cb = (JComboBox) e.getSource();
-                int n = cb.getSelectedIndex();
-                controleur.colorerCrayon(n);                
-            }// actions des boutons du bas
-            else if (c.equals("Proc1")) {
-                controleur.carre();
-            } else if (c.equals("Proc2")) {
-                controleur.poly(60, 8);
-            } else if (c.equals("Proc3")) {
-                controleur.spiral(50, 40, 6);
-            } else if (c.equals("Effacer")) {
-                effacer();
-            } else if (c.equals("Quitter")) {
-                quitter();
-            }
-        }
-    }
-
-   public class SimpleLogoMouseListener implements MouseListener {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            controleur.selectTortue(e.getPoint());
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-        }
-       
-   }
 }
