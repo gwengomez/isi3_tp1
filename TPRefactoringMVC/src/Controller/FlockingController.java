@@ -10,7 +10,6 @@ import Model.TortueAutonome;
 import Model.TortueFlocking;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -19,7 +18,6 @@ import java.util.Random;
  */
 public class FlockingController extends AbstractTortuesController {
 
-    //private ArrayList<TortueAutonome> tortues;
     private Thread t;
     private GameLoop gl;
 
@@ -66,10 +64,9 @@ public class FlockingController extends AbstractTortuesController {
     @Override
     public void init() {
         TortueAutonome.setFieldBoundaries(this.v.getFeuilleDimension().width, this.v.getFeuilleDimension().height);
-        this.tortues = new ArrayList<>();
         generateTortues(30);
         TortueFlocking.tortues = this.tortues;
-        gl = new FlockingLoop(tortues);
+        gl = new AutonomeLoop(tortues);
         t = new Thread(gl);
         t.start();
     }

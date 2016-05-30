@@ -25,7 +25,7 @@ public class FeuilleDessin extends JPanel {
     private DrawingStrategyFactory factory;
 
     public FeuilleDessin() {
-        factory = new DrawingStrategyFactory();
+        factory = DrawingStrategyFactory.getFactory();
         tortues = new ArrayList<Tortue>();
     }
 

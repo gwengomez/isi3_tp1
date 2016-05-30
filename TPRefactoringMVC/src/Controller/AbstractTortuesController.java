@@ -17,7 +17,11 @@ import java.util.ArrayList;
 public abstract class AbstractTortuesController implements ActionListener {
 
     protected TortuesView v;
-    protected ArrayList<Tortue> tortues = new ArrayList<>();
+    protected ArrayList<Tortue> tortues;
+    
+    public AbstractTortuesController() {
+        this.tortues = new ArrayList<>();
+    }
     
     protected abstract void generateTortues(int n);
    

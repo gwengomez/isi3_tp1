@@ -14,7 +14,6 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JComboBox;
 
@@ -25,7 +24,6 @@ import javax.swing.JComboBox;
 public class LogoController extends AbstractTortuesController implements ActionListener {
 
     private Tortue courante;
-    private ArrayList<Tortue> tortues;
     private SimpleLogo sLogoView;
 
     public void reset() {
@@ -168,7 +166,6 @@ public class LogoController extends AbstractTortuesController implements ActionL
     @Override
     public void init() {
         this.v.addMyMouseListener(new ViewMouseListener(this));
-        this.tortues = new ArrayList<>();
         this.addTortue("triangle", 0);
     }
 }

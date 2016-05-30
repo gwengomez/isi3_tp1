@@ -9,7 +9,6 @@ import Model.Forme;
 import Model.TortueAutonome;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -68,7 +67,7 @@ public class TortuesController extends AbstractTortuesController {
     @Override
     public void init() {
         TortueAutonome.setFieldBoundaries(this.v.getFeuilleDimension().width, this.v.getFeuilleDimension().height);
-        this.tortues = new ArrayList<>();
+        //this.tortues = new ArrayList<>();
         generateTortues(20);
         gl = new AutonomeLoop(tortues);
         t = new Thread(gl);

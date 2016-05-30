@@ -12,6 +12,17 @@ import Model.Forme;
  * @author Epulapp
  */
 public class DrawingStrategyFactory {
+    
+    private static DrawingStrategyFactory self;
+    
+    private DrawingStrategyFactory() {}
+    
+    public static DrawingStrategyFactory getFactory() {
+        if(self == null) {
+            self = new DrawingStrategyFactory();
+        }
+        return self;
+    }
 
     public DrawingStrategy getStrategy(Forme f) {
         switch (f) {

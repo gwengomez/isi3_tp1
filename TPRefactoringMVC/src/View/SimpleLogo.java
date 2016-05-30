@@ -5,13 +5,10 @@
  */
 package View;
 
-import Controller.LogoController;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Observer;
 import javax.swing.Box;
 import javax.swing.JButton;
