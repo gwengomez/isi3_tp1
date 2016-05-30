@@ -5,7 +5,6 @@
  */
 package View;
 
-import Model.Forme;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -22,9 +21,11 @@ import java.awt.Polygon;
  */
 public class FeuilleDessin extends JPanel {
 
-    private ArrayList<Tortue> tortues; // la liste des tortues enregistrees 
+    private ArrayList<Tortue> tortues; // la liste des tortues enregistrees
+    private DrawingStrategyFactory factory;
 
     public FeuilleDessin() {
+        factory = new DrawingStrategyFactory();
         tortues = new ArrayList<Tortue>();
     }
 
@@ -63,20 +64,8 @@ public class FeuilleDessin extends JPanel {
     private void drawTurtle(Graphics g, Tortue t) {
         Polygon p;
         g.setColor(decodeColor(t.getCoul()));
-        DrawingStrategy strategy = this.getStrategy(t.getForme());
+        DrawingStrategy strategy = this.factory.getStrategy(t.getForme());
         strategy.draw(t, g);
-    }
-
-    private DrawingStrategy getStrategy(Forme f) {
-        switch (f) {
-            case RONDE:
-                return new RondeTortue();
-            case CARRE:
-                return new CarreTortue();
-            case TRIANGLE:
-            default:
-                return new TriangleTortue();
-        }
     }
 
     public Color decodeColor(int c) {
