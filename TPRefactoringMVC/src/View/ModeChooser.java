@@ -5,6 +5,7 @@
  */
 package View;
 
+import Controller.FlockingController;
 import Controller.LogoController;
 import Controller.TortuesController;
 
@@ -33,8 +34,9 @@ public class ModeChooser extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         optionNormal = new javax.swing.JRadioButton();
-        optionFlock = new javax.swing.JRadioButton();
+        optionAutonome = new javax.swing.JRadioButton();
         buttonOK = new javax.swing.JButton();
+        optionFlock = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -45,8 +47,8 @@ public class ModeChooser extends javax.swing.JFrame {
         optionNormal.setSelected(true);
         optionNormal.setText("Mode normal");
 
-        buttonGroup1.add(optionFlock);
-        optionFlock.setText("Mode flock");
+        buttonGroup1.add(optionAutonome);
+        optionAutonome.setText("Mode autonome");
 
         buttonOK.setText("OK");
         buttonOK.addActionListener(new java.awt.event.ActionListener() {
@@ -54,6 +56,9 @@ public class ModeChooser extends javax.swing.JFrame {
                 buttonOKActionPerformed(evt);
             }
         });
+
+        buttonGroup1.add(optionFlock);
+        optionFlock.setText("Mode flock");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -66,8 +71,9 @@ public class ModeChooser extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(optionFlock)
-                            .addComponent(optionNormal))))
+                            .addComponent(optionAutonome)
+                            .addComponent(optionNormal)
+                            .addComponent(optionFlock))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -82,10 +88,16 @@ public class ModeChooser extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(optionNormal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(optionFlock)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(buttonOK)
-                .addContainerGap())
+                .addComponent(optionAutonome)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addComponent(buttonOK)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(optionFlock)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -96,9 +108,13 @@ public class ModeChooser extends javax.swing.JFrame {
             SimpleLogo fenetre = new SimpleLogo();
             LogoController ctrl = new LogoController(fenetre);
             fenetre.setVisible(true);
-        } else {
+        } else if(optionAutonome.isSelected()) {
             AutonomeView fenetre = new AutonomeView();
             TortuesController ctrl = new TortuesController(fenetre);
+            fenetre.setVisible(true);
+        } else {
+            AutonomeView fenetre = new AutonomeView();
+            FlockingController ctrl = new FlockingController(fenetre);
             fenetre.setVisible(true);
         }
         this.dispose();
@@ -107,6 +123,7 @@ public class ModeChooser extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton buttonOK;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JRadioButton optionAutonome;
     private javax.swing.JRadioButton optionFlock;
     private javax.swing.JRadioButton optionNormal;
     // End of variables declaration//GEN-END:variables

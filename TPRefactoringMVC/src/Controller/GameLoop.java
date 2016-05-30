@@ -12,10 +12,10 @@ import java.util.ArrayList;
  *
  * @author Epulapp
  */
-public class GameLoop implements Runnable {
+public abstract class GameLoop implements Runnable {
 
-    public volatile boolean gameRunning = true;
-    private ArrayList<TortueAutonome> tortues;
+    private volatile boolean gameRunning = true;
+    protected ArrayList<TortueAutonome> tortues;
 
     public GameLoop(ArrayList<TortueAutonome> tortues) {
         this.tortues = tortues;
@@ -28,6 +28,10 @@ public class GameLoop implements Runnable {
     @Override
     public void run() {
         this.gameLoop();
+    }
+    
+    public boolean isGameRunning() {
+        return this.gameRunning;
     }
 
     public void gameLoop() {
@@ -62,12 +66,14 @@ public class GameLoop implements Runnable {
         }
     }
 
-    private void doGameUpdates(double delta) {
+    /*private void doGameUpdates(double delta) {
         for (TortueAutonome t : tortues) {
            for(int i = 0; i < delta; i++) {
                t.nextStep();
            }
         }
-    }
+    }*/
+    
+    protected abstract void doGameUpdates(double delta);
 
 }

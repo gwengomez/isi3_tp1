@@ -30,7 +30,7 @@ public class TortuesController extends AbstractTortuesController{
         TortueAutonome.setFieldBoundaries(this.v.getFeuilleDimension().width, this.v.getFeuilleDimension().height);
         this.tortues = new ArrayList<>();
         generateTortues(20);
-        gl = new GameLoop(tortues);
+        gl = new AutonomeLoop(tortues);
         t = new Thread(gl);
         t.start();
     }
@@ -66,6 +66,6 @@ public class TortuesController extends AbstractTortuesController{
     }
     
     public void stop() {
-        this.gl.gameRunning = false;
+        this.gl.setGameRunning(false);
     }
 }

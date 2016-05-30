@@ -35,8 +35,9 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="optionFlock" min="-2" max="-2" attributes="0"/>
+                          <Component id="optionAutonome" min="-2" max="-2" attributes="0"/>
                           <Component id="optionNormal" min="-2" max="-2" attributes="0"/>
+                          <Component id="optionFlock" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -57,10 +58,19 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="optionNormal" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="optionFlock" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="11" max="32767" attributes="0"/>
-              <Component id="buttonOK" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="optionAutonome" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace pref="28" max="32767" attributes="0"/>
+                      <Component id="buttonOK" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="optionFlock" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
           </Group>
       </Group>
     </DimensionLayout>
@@ -80,12 +90,12 @@
         <Property name="text" type="java.lang.String" value="Mode normal"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JRadioButton" name="optionFlock">
+    <Component class="javax.swing.JRadioButton" name="optionAutonome">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="buttonGroup1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Mode flock"/>
+        <Property name="text" type="java.lang.String" value="Mode autonome"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="buttonOK">
@@ -95,6 +105,14 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonOKActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JRadioButton" name="optionFlock">
+      <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="buttonGroup1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Mode flock"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

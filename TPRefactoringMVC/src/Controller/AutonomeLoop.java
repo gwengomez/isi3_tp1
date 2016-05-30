@@ -10,18 +10,20 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Erwan
+ * @author Epulapp
  */
-public class FlockingLoop extends GameLoop {
-    
-    public FlockingLoop(ArrayList<TortueAutonome> tortues) {
+public class AutonomeLoop extends GameLoop {
+
+    public AutonomeLoop(ArrayList<TortueAutonome> tortues) {
         super(tortues);
     }
 
     @Override
     protected void doGameUpdates(double delta) {
         for (TortueAutonome t : tortues) {
-            t.nextStep();
+            for (int i = 0; i < delta; i++) {
+                t.nextStep();
+            }
         }
     }
 

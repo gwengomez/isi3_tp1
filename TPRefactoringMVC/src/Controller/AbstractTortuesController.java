@@ -5,14 +5,6 @@
  */
 package Controller;
 
-import Model.Forme;
-import Model.TortueAutonome;
-import View.AutonomeView;
-import View.TortuesView;
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.Random;
-
 /**
  *
  * @author Erwan
