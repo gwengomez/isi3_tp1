@@ -28,35 +28,12 @@ public class TortueFlocking extends TortueAutonome {
         super(f, vitesse, dir);
     }
 
-    /*public ArrayList<TortueAutonome> getNeighbourhood() {
-        ArrayList<TortueAutonome> neighbour = new ArrayList<>();
-        for (Tortue te : tortues) {
-            TortueAutonome t = (TortueAutonome)te;
-            if (t == this) {
-                continue;
-            }
-            if (this.getDistance(new Point(t.x, t.y)) <= visionRange) {
-                neighbour.add(t);
-            }
-        }
-        return neighbour;
-    }*/
-
-    /*public Point getCenter(ArrayList<TortueAutonome> ts) {
-        double x = 0, y = 0;
-        for (TortueAutonome t : ts) {
-            x += t.x;
-            y += t.y;
-        }
-        return new Point((int) Math.round((y / (ts.size() - 1))), (int) Math.round(x / (ts.size() - 1)));
-    }*/
-
     @Override
     public void nextStep() {
         ArrayList<TortueAutonome> inVisionRange = new ArrayList<>();
         ArrayList<TortueAutonome> tooClose = new ArrayList<>();
         for (Tortue te : tortues) {
-            TortueAutonome t = (TortueAutonome)te;
+            TortueAutonome t = (TortueAutonome) te;
             if (t == this) {
                 continue;
             }
@@ -67,9 +44,6 @@ public class TortueFlocking extends TortueAutonome {
         }
         ArrayList<TortueAutonome> inRadiusRange = new ArrayList<>();
         for (TortueAutonome t : inVisionRange) {
-            if(this.getDistance(new Point(t.x, t.y)) < distanceMin) {
-                tooClose.add(t);
-            }
             double vectorX = t.x - this.x;
             double vectorY = t.y - this.y;
             double distance = this.getDistance(new Point(t.x, t.y));
@@ -94,6 +68,9 @@ public class TortueFlocking extends TortueAutonome {
             double degAngle = 180 * angle / Math.PI;
             if (degAngle <= visionRadius) {
                 inRadiusRange.add(t);
+                if (this.getDistance(new Point(t.x, t.y)) < distanceMin) {
+                    tooClose.add(t);
+                }
             }
         }
         //no other Tortue in sight 
@@ -112,10 +89,11 @@ public class TortueFlocking extends TortueAutonome {
             moyDir = moyDir / inRadiusRange.size();
             this.setVitesse((int) Math.round(moyVitesse));
             this.setDir((int) Math.round(moyDir));
-            if(tooClose.isEmpty())
+            if (tooClose.isEmpty()) {
                 this.avancer(this.getVitesse());
-            else
-                this.avancer(this.getVitesse()/2);
+            } else {
+                this.avancer(this.getVitesse() / 2);
+            }
         }
     }
 
