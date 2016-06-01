@@ -27,6 +27,10 @@ public class TortueFlocking extends TortueAutonome {
     public TortueFlocking(Forme f, int vitesse, int dir) {
         super(f, vitesse, dir);
     }
+    
+    public TortueFlocking() {
+        super();
+    }
 
     @Override
     public void nextStep() {

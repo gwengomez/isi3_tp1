@@ -54,7 +54,6 @@ public class TestTortue {
     @Test
     public void testPosition() {
         int[] pos = {0, 10, 50, 100, 1000};
-
         for (int i = 0; i < pos.length; i++) {
             t.setX(pos[i]);
             for (int k = 0; k < pos.length; k++) {
@@ -165,6 +164,43 @@ public class TestTortue {
             }
         }
 
+    }
+
+    @Test
+    public void testPoly() {
+        int x = t.getX(), y = t.getY();
+        t.poly(y, y);
+        assertEquals(x, this.t.getX());
+        assertEquals(y, this.t.getY());
+    }
+
+    @Test
+    public void testCarre() {
+        int x = t.getX(), y = t.getY();
+        t.carre();
+        assertEquals(x, this.t.getX());
+        assertEquals(y, this.t.getY());
+    }
+
+    @Test
+    public void testSpiral() {
+        int k = 8, n = 20, a = 30;
+        int x = this.t.getX();
+        int y = this.t.getY();
+        int dir = this.t.getDir();
+        for (int i = 0; i < k; i++) {
+            x = (int) Math.round(x + n * Math.cos(Tortue.ratioDegRad * dir));
+            y = (int) Math.round(y + n * Math.sin(Tortue.ratioDegRad * dir));
+            dir = (dir + (360 / a)) % 360;
+            n = n + 1;
+        }
+        k = 8;
+        n = 20;
+        a = 30;
+        this.t.spiral(n, k, a);
+        
+        assertEquals(x, this.t.getX());
+        assertEquals(y, this.t.getY());
     }
 
 }

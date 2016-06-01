@@ -24,6 +24,11 @@ public class TortueAutonome extends Tortue {
     public TortueAutonome(Forme f, int vitesse, int dir) {
         this(0, 0, dir, 0, f, vitesse);
     }
+    
+    public TortueAutonome() {
+        super();
+        this.vitesse = 20;
+    }
 
     public static void setFieldBoundaries(int maxX, int maxY) {
         TortueAutonome.maxX = maxX;
