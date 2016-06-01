@@ -53,8 +53,12 @@ public class TortueFlocking extends TortueAutonome {
 
     @Override
     public void nextStep() {
+        // Toutes les tortues en portée de vision (sans prendre en compte l'angle de vision)
         ArrayList<TortueAutonome> inVisionRange = new ArrayList<>();
+        // Toutes les tortues qui sont situées dans notre vision et trop proche de nous
         ArrayList<TortueAutonome> tooClose = new ArrayList<>();
+        
+        // Remplie la liste des tortues en portée de vision (inVisionRange)
         for (Tortue te : tortues) {
             TortueAutonome t = (TortueAutonome)te;
             if (t == this) {
@@ -65,11 +69,12 @@ public class TortueFlocking extends TortueAutonome {
                 inVisionRange.add(t);
             }
         }
+        
+        // Toutes les tortues en portée de vision dans l'angle de vision
         ArrayList<TortueAutonome> inRadiusRange = new ArrayList<>();
+        
+        // Sélectionne les tortues à portée et dans l'angle de la vision (inRadiusRange)
         for (TortueAutonome t : inVisionRange) {
-            if(this.getDistance(new Point(t.x, t.y)) < distanceMin) {
-                tooClose.add(t);
-            }
             double vectorX = t.x - this.x;
             double vectorY = t.y - this.y;
             double distance = this.getDistance(new Point(t.x, t.y));
@@ -94,6 +99,9 @@ public class TortueFlocking extends TortueAutonome {
             double degAngle = 180 * angle / Math.PI;
             if (degAngle <= visionRadius) {
                 inRadiusRange.add(t);
+                if(this.getDistance(new Point(t.x, t.y)) < distanceMin) {
+                    tooClose.add(t);
+                }
             }
         }
         //no other Tortue in sight 
