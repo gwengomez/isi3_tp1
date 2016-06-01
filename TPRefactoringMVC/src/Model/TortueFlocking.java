@@ -18,6 +18,9 @@ public class TortueFlocking extends TortueAutonome {
     public static int visionRange = Tortue.rp * 8;
     public static int visionRadius = 70; //radius (+/- deg) which a turtle can see (between -visionRadius and +visionRadius - giving it a total radius of 2*visionRadius)
 
+    //List of other Tortue that are too close too this one
+    private ArrayList<TortueAutonome> tooClose = new ArrayList<>();
+
     public static ArrayList<Tortue> tortues;
 
     public TortueFlocking(int x, int y, int dir, int coul, Forme forme, int vitesse) {
@@ -32,10 +35,9 @@ public class TortueFlocking extends TortueAutonome {
         super();
     }
 
-    @Override
-    public void nextStep() {
+    public ArrayList<TortueAutonome> getTortueInRange() {
         ArrayList<TortueAutonome> inVisionRange = new ArrayList<>();
-        ArrayList<TortueAutonome> tooClose = new ArrayList<>();
+        // Remplie la liste des tortues en portée de vision (inVisionRange)
         for (Tortue te : tortues) {
             TortueAutonome t = (TortueAutonome) te;
             if (t == this) {
@@ -46,7 +48,20 @@ public class TortueFlocking extends TortueAutonome {
                 inVisionRange.add(t);
             }
         }
+        return inVisionRange;
+    }
+
+    public ArrayList<TortueAutonome> getTortueInVision() {
+
+        //clear the tooClose array as we are going to rebuild it
+        this.tooClose.clear();
+
+        // Toutes les tortues en portée de vision dans l'angle de vision
+        ArrayList<TortueAutonome> inVisionRange = this.getTortueInRange();
+        
         ArrayList<TortueAutonome> inRadiusRange = new ArrayList<>();
+
+        // Sélectionne les tortues à portée et dans l'angle de la vision (inRadiusRange)
         for (TortueAutonome t : inVisionRange) {
             double vectorX = t.x - this.x;
             double vectorY = t.y - this.y;
@@ -77,9 +92,15 @@ public class TortueFlocking extends TortueAutonome {
                 }
             }
         }
+        return inRadiusRange;
+    }
+
+    @Override
+    public void nextStep() {        
+        ArrayList<TortueAutonome> inRadiusRange = this.getTortueInVision();
         //no other Tortue in sight 
         if (inRadiusRange.isEmpty()) {
-            if (tooClose.size() != 0) {
+            if (!tooClose.isEmpty()) {
                 //we're too close from at least one Tortue
             }
             super.nextStep();
@@ -101,37 +122,6 @@ public class TortueFlocking extends TortueAutonome {
         }
     }
 
-    /*private ArrayList<Point> getPointsPossibles(TortueFlocking t) {
-     ArrayList<Point> pts = new ArrayList<>();
-     Point pt = new Point(t.x, t.y);
-     pts.add(pt);
-     pts.add(translateRight(pt));
-     pts.add(translateLeft(pt));
-     pts.add(translateTop(pt));
-     pts.add(translateBottom(pt));
-     pts.add(translateRight(translateBottom(pt)));
-     pts.add(translateRight(translateTop(pt)));
-     pts.add(translateLeft(translateBottom(pt)));
-     pts.add(translateLeft(translateTop(pt)));
-     return pts;
-     }
-    
-    
-     private Point translateRight(Point p) {
-     return new Point(p.x + maxX, p.y);
-     }
-    
-     private Point translateLeft(Point p) {
-     return new Point(p.x - maxX, p.y);
-     }
-    
-     private Point translateTop(Point p) {
-     return new Point(p.x, p.y + maxY);
-     }
-    
-     private Point translateBottom(Point p) {
-     return new Point(p.x, p.y - maxY);
-     }*/
     private double getDistance(Point p2) {
         return Math.sqrt(Math.pow(this.x - p2.x, 2) + Math.pow(this.y - p2.y, 2));
     }
